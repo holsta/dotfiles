@@ -1,0 +1,19 @@
+# $Id: inputrc,v 1.1 2002/01/28 03:33:57 a Exp $
+## In all programs, all terminals, make sure this is bound.
+"\C-y\C-r": re-read-init-file
+
+# set edit-mode vi
+
+## allow 8-bit input
+set meta-flag on
+set convert-meta off
+set output-meta on
+set bell-style none
+
+#"\eOA": previous-history
+#"\eOB": next-history
+#"\eOC": forward-char
+#"\eOD":        backward-char
+#"\e[2~": beginning-of-line                   # Home key
+#"\e[5~": end-of-line                         # End key
+#"\e[6~": possible-filename-completions       # PgDn

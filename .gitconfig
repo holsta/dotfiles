@@ -1,0 +1,9 @@
+[user]
+	name = Alex Holst
+	email = a@mongers.org
+[alias]
+	co = checkout
+[color]
+	diff = auto
+	status = auto
+	branch = auto

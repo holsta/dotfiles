@@ -1,0 +1,25 @@
+# turn on stick-group mode
+sticky yes
+
+# make room for xclock and friends along the top
+#gap 14 0 0 0
+
+# don't border these apps
+ignore xclock
+ignore xconsole
+
+# Autogroup definitions
+autogroup 0 "xclock,XClock"
+autogroup 1 "xterm,XTerm"
+autogroup 2 "Navigator,Firefox"
+autogroup 3 "Thunderbird-bin,thunderbird-bin"
+autogroup 3 "gimp,Gimp"
+autogroup 3 "Blender,Blender"
+autogroup 4 "inkscape,Inkscape"
+autogroup 5 "easytag,Easytag"
+autogroup 5 "audacity,Audacity"
+autogroup 6 "gtkpod,Gtkpod"
+autogroup 6 "gitk,Gitk"
+autogroup 7 "xspread,XSpread"
+autogroup 8 "pidgin,Pidgin"
+autogroup 9 "xconsole,XConsole"
