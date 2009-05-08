@@ -3,6 +3,7 @@
 	email = a@mongers.org
 [alias]
 	co = checkout
+	ci = commit 
 [color]
 	diff = auto
 	status = auto
