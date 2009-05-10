@@ -155,9 +155,10 @@ alias pkgup="sudo pkg_add -uiF update -F updatedepends"
 alias pkg_add="sudo pkg_add -i"
 alias osupgrade="cd ~/.dotfiles; sh osupgrade.sh"
 alias gitup='cd ~/work/; for i in git gitbook buildbot; do cd $i; git pull; cd ..; done'
+# tvix passwords are not secret and not changable, so tell the github people
+# my tvix password, just to make life easier on myself.
+alias tvix='shlight //tvix/tvixhd1 /mnt/tvix -U tvixhd1 -P tvixhd1'
 # make it easier to run rtorrent inside screen
 stty start undef
 stty stop undef
-
-echo \$Revision: 1.60 $
 
