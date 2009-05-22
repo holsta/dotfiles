@@ -1,0 +1,10 @@
+#!/bin/sh
+
+xrandr --output LVDS --auto
+xrandr --output VGA --off
+
+sudo ifconfig em down
+sudo ifconfig ath0 up 
+sudo dhclient ath0 
+
+sudo apm -C
