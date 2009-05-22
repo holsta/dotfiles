@@ -26,6 +26,8 @@ sshsock() {
 	    # Got one? Try to use it.
 	    eval `ssh-agent`
 	    ssh-add
+	else
+	    echo "sshsock: No socket found."
 	fi
 }
 
@@ -85,9 +87,9 @@ function parse_git_branch {
 # turn the prompt red if the previous program exited with non-zero.
 if type -p printf > /dev/null 2>&1; then
     red=$(printf '\e[31m')
-    export PS1='$([ $? -eq 0 ]||printf $red)\h\$\[\e[0m\] '
+    export PS1='$([ $? -eq 0 ]||printf $red)\h \w\$\[\e[0m\] '
 else
-    export PS1='\[\e[0m\]\h\$\[\e[0m\] '
+    export PS1='\[\e[0m\]\h\ \w$\[\e[0m\] '
 fi
 
 JAVA_HOME=/usr/local/jre-1.7.0/
@@ -96,7 +98,6 @@ export JAVA_HOME
 PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:$JAVA_HOME/bin"
 HOSTNAME="`hostname -s`"
 TERM=xterm-color
-MAIL=$HOME/.Maildir/incoming/
 LESSCHARSET=latin1
 TZ=CET
 export TERM HOME MAIL LESSCHARSET PATH TZ 
@@ -146,18 +147,21 @@ esac
 
 export OPENBSD_DK PKG_PATH OS_PATH
 
-export MPD_HOST=localhost
+# Uncomment this and use auto-discovery in mpd clients 
+#export MPD_HOST=localhost
 
 alias ls="ls -F"
 alias gsxy="/home/holsta/work/siteXYtools/generate"
 alias work="cd ~/work"		# shorthand for work dir
 alias pkgup="sudo pkg_add -uiF update -F updatedepends"
 alias pkg_add="sudo pkg_add -i"
-alias osupgrade="cd ~/.dotfiles; sh osupgrade.sh"
+alias osupgrade="cd ~/bin; sh osupgrade.sh"
 alias gitup='cd ~/work/; for i in git gitbook buildbot; do cd $i; git pull; cd ..; done'
 # tvix passwords are not secret and not changable, so tell the github people
 # my tvix password, just to make life easier on myself.
 alias tvix='shlight //tvix/tvixhd1 /mnt/tvix -U tvixhd1 -P tvixhd1'
+# make it easier to update mayas website
+alias maya.mongers.org="ssh katie.klen.dk 'cd /var/apache/holsta/maya.mongers.org/htdocs/2009; svn up'"
 # make it easier to run rtorrent inside screen
 stty start undef
 stty stop undef
