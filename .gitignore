@@ -9,6 +9,7 @@
 .audacity-data/
 .config/
 .dbus/
+.dmesgs
 .easytag/
 .fehrc
 .fontconfig/
@@ -33,13 +34,14 @@
 .mcoprc
 .mozilla/
 .mplayer/
+.mutt/
 .mysql_history
 .ncftp
 .purple/
 .qt/
 .raggle/
 .recently-used.xbel
-.serverauth.27366
+.serverauth.*
 .sqlite_history
 .subversion/
 *.swp
