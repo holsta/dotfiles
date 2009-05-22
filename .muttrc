@@ -26,6 +26,7 @@ set autoedit=yes        # don't ask silly questions, just spawn my editor
 set beep=no             # beep, and I'll break your neck.
 set beep_new=no         # New mail is not an excuse to beep. I will kill you.
 
+set certificate_file=~/.mutt/certificates
 set charset="iso-8859-1"
 set send_charset="iso-8859-1"
 set confirmcreate=no
@@ -45,12 +46,14 @@ set mime_forward=no
 set move=no
 set mbox_type=Maildir   # We want Maildir.
 
-set header_cache="~/.mutt_header_cache"
-set message_cachedir="~/.mutt_bodies_cache"
+set header_cache=~/.mutt/cache/headers
+set message_cachedir=~/.mutt/cache/bodies
 
 set help=no             # don't show helpbar at the bottom.
 
 set imap_idle=yes
+set imap_check_subscribed="yes"
+set imap_list_subscribed="yes" 
 set include=yes
 set index_format="%Z %[!%y%m%d] %-17.17F %s"
 set status_format="%v: %f (%s) [%M/%m] [N=%n,*=%t,post=%p,new=%b]"
@@ -64,7 +67,7 @@ set postpone=ask-no     # ask if cancelled mail should get postponed
 set postponed="+[Gmail]/Drafts"
 set prompt_after=no     # don't make me hit a key when returning from pgp
 
-#set record==sent/	# imap records my sent mail
+unset record		# imap records my sent mail
 set reply_to=yes
 set reverse_name=no	# in replies, use my own From:
 set reply_regexp="^([rR][eE]([\[0-9\]+])*|sv|aw|SV|AW|Sv|Aw|Vedr):[ \t]*"
