@@ -3,5 +3,5 @@
 # Save every dmesg to ~/.dmesgs so I can keep track of upgrades/breakage.
 
 mkdir -p ~/.dmesgs
- cp /var/run/dmesg.boot ~/.dmesgs/$(date +%Y-%m-%d-%H-%M)
+ cp /var/run/dmesg.boot ~/.dmesgs/$(date +%F-%H-%M)
 
