@@ -43,26 +43,27 @@ else
 fi
 export EDITOR
 
-# Finds SSH authentication sockets that belong to us.
-_findSSHsocket() {
+sshsock() {
+	# Find SSH authentication sockets that belong to us,
+	# and use the latest one.
 	export SSH_AUTH_SOCK=`find /tmp/ -user $USER  \
 	-name 'agent*' 2>/dev/null | xargs ls -t | head -1`
-}
-
-sshsock() {
-	# Look for a socket..
-	_findSSHsocket
-	if [ ! -z "$SSH_AUTH_SOCK" ]; then
-	    # Got one? Try to use it.
-	    eval `ssh-agent`
-	    ssh-add
+	# Did we find a ssh-agent socket?
+	if [ -S "$SSH_AUTH_SOCK" ]; then
+	    # We did. Try to use it.
+	    echo "Found $SSH_AUTH_SOCK"
+	    ssh-add -l
 	else
-	    echo "sshsock: No socket found."
+	   # Found no agent, invoke one and prompt for password.
+	   eval `ssh-agent`
+	   ssh-add
 	fi
 }
 
-# If SSH_AUTH_SOCK is not set..
-if [ -z "$SSH_AUTH_SOCK" ]; then
+# If SSH_AUTH_SOCK is not set, we don't know of an ssh-agent to
+# talk to. If SSH_CLIENT isn't set either, we're logged in
+# locally (console or xdm) and we want an ssh-agent.
+if [ -z "$SSH_AUTH_SOCK" ] && [ -z "$SSH_CLIENT" ]; then
 	sshsock
 fi
 
@@ -152,7 +153,7 @@ export PKG_PATH OS_PATH
 # Clean up our environment 
 unset OPENBSD_DK PKG_STABLE_DIR PKG_CURRENT_DIR \
 	OS_STABLE_DIR OS_CURRENT_DIR PKG_STABLE \
-	PKG_CURRENT OS_STABLE OS_CURRENT
+	PKG_CURRENT OS_STABLE OS_CURRENT OPENBSDVER
 
 # Various openbsd-specific aliases 
 alias pkgup="sudo pkg_add -uiF update -F updatedepends"
@@ -168,13 +169,13 @@ worldsync() {
 	cd ~/work/
 	for i in $(find . -maxdepth 1 -type d); do 
 		if [ -x $i/CVS ]; then
-			cd $i; echo cvs up; cd ..
+			cd $i; cvs up; cd ..
 		fi
 		if [ -x $i/.git ]; then
-			cd $i; echo git pull; cd ..
+			cd $i; git pull; cd ..
 		fi
 		if [ -x $i/.svn ]; then
-			cd $i; echo svn up; cd ..
+			cd $i; svn up; cd ..
 		fi
 	done
 }
