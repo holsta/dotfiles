@@ -63,3 +63,11 @@ torrents/
 work/
 *.mp3
 *.mp4
+*.core
+linkchecker-out.html
+.gem
+.irssi
+.lyrics
+.mutt.personal
+.netrc
+.service_proxy_dir
