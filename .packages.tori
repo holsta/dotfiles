@@ -1,24 +1,24 @@
+# ==== works in the console
 vim
-mozilla-firefox
-gnash
-vlc
 vlorb
-easytag
 subversion
 svk
 git
+git-svn
 tig
 trac
-inkscape
-gimp
 mtr
 pftop
-mpdBrowser
-mpc
+ncmpc
+# === requires X
 pidgin
-xpdf
-msttcorefonts
 symon
 feh
 recordmydesktop
-
+mozilla-firefox
+liberation-fonts
+inkscape
+gimp
+easytag
+vlc
+xpdf
