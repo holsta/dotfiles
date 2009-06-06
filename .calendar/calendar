@@ -1,0 +1,18 @@
+/*
+ * holsta's calendars
+ */
+
+#include <calendar.world>
+#include <calendar.usholiday>
+#include <calendar.discord>
+#include <calendar.ushistory>
+#include <calendar.space>
+#include <calendar.birthday>
+#include <calendar.christian>
+#include <calendar.computer>
+#include <calendar.fictional>
+#include <calendar.history>
+#include <calendar.holiday>
+#include <calendar.music>
+#include <calendar.openbsd>
+#include <calendar.ushistory>
