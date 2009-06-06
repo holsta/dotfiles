@@ -51,7 +51,7 @@ sshsock() {
 	# Did we find a ssh-agent socket?
 	if [ -S "$SSH_AUTH_SOCK" ]; then
 	    # We did. Try to use it.
-	    echo "Found $SSH_AUTH_SOCK"
+	    echo -n "Found $SSH_AUTH_SOCK: "
 	    ssh-add -l
 	else
 	   # Found no agent, invoke one and prompt for password.
@@ -202,6 +202,7 @@ case "$HOSTNAME" in
 	tori)
 		openbsdspecific
 		show_ports
+		calendar -A 0
 		;;
 	fileserver)
 		openbsdspecific
@@ -210,5 +211,7 @@ case "$HOSTNAME" in
 		openbsdspecific
 		;;
 	katie)
+		TERM=vt100
+		export TERM
 		;;		
 esac
