@@ -2,7 +2,6 @@
 vim
 vlorb
 subversion
-svk
 git
 git-svn
 tig
@@ -19,6 +18,7 @@ mozilla-firefox
 liberation-fonts
 inkscape
 gimp
+git-x11
 easytag
 vlc
 xpdf
