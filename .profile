@@ -2,14 +2,25 @@
 
 # Interactive logins
 # This .profile needs to work everywhere I have accounts:
-# * My openbsd laptop
+# * OS X macbook 
 # * My openbsd fileserver
 # * The linux web host
 
 # Needed for svn/iconv
 export LC_CTYPE=da_DK.ISO8859-1
 
-PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:$JAVA_HOME/bin"
+# Find a proper JRE
+if [ -x /usr/local/jre-1.7.0/ ]; then
+	JAVA_HOME=/usr/local/jre-1.7.0/
+	export JAVA_HOME
+fi
+
+if [ -x /usr/local/jre-1.7.0/ ]; then
+	JAVA_HOME=/usr/local/jre-1.7.0/
+	export JAVA_HOME
+fi
+
+PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:$JAVA_HOME/bin:/usr/local/git/bin/"
 HOSTNAME="`hostname -s`"
 TERM=xterm-color
 LESSCHARSET=latin1
@@ -122,11 +133,6 @@ else
     export PS1='\[\e[0m\]\h\ \w$(parse_git_branch)$\[\e[0m\] '
 fi
 
-if [ -x /usr/local/jre-1.7.0/ ]; then
-	JAVA_HOME=/usr/local/jre-1.7.0/
-	export JAVA_HOME
-fi
-
 openbsdspecific() {
 OPENBSDVER=`sysctl kern.version`
 
@@ -190,8 +196,10 @@ alias work="cd ~/work"		# shorthand for work dir
 alias tvix='shlight //tvix/tvixhd1 /mnt/tvix -U tvixhd1 -P tvixhd1'
 
 # make it easier to update mayas website
-alias maya.mongers.org="ssh katie.klen.dk 'cd /var/apache/holsta/maya.mongers.org/htdocs/2009; svn up'"
+alias maya.mongers.org="ssh -t katie.klen.dk 'cd /var/apache/holsta/maya.mongers.org/htdocs/2009; svn up'"
 
+# ssh session to files
+alias files="ssh -t fileserver.inside.mongers.org 'tmux a'"
 # make it easier to run rtorrent inside screen
 stty start undef
 stty stop undef
