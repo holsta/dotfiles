@@ -44,6 +44,11 @@ else
 	echo note: This is not the public domain ksh.
 fi
 
+# vi keybindings on my macbook, please.
+if [ "/bin/bash" = "$SHELL" ]; then
+	set -o vi
+fi
+
 
 # If vim is available, use it. Otherwise assume vi is.
 if [ -x "`which vim`" ]; then 
