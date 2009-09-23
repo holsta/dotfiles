@@ -73,7 +73,7 @@ publish () {
 
 	PUBLISHURL=http://a.mongers.org/x/
 	PUBLISHHOSTNAME=katie.klen.dk
-	PUBLISHPATH=/var/apache/holsta/dominion/x/
+	PUBLISHPATH=/var/apache/holsta/a.mongers.org/x/
 
 	for f in $PUBLISHFILES; do
 		if [ ! -f $f ]; then
@@ -175,7 +175,8 @@ worldsync() {
 			cd $i; git pull; cd ..
 		fi
 		if [ -x $i/.svn ]; then
-			cd $i; svn up; cd ..
+			# skip svn repos for now
+			cd $i; echo svn up; cd ..
 		fi
 	done
 }
