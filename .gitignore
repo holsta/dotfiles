@@ -48,6 +48,7 @@
 .svnrepo/
 .symon/
 .ssh/id_dsa
+.ssh/known_hosts
 .thumbnails/
 .thunderbird/
 .trac/
