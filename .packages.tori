@@ -1,24 +1,15 @@
 # ==== works in the console
-vim
-vlorb
-subversion
-git
-git-svn
+vim--gtk2
+vifm
+git--
 tig
-trac
-mtr
-pftop
-ncmpc
+mercurial--
+mtr--
+pftop--
+ncmpc--
 # === requires X
-pidgin
-symon
-feh
+feh--
 recordmydesktop
-mozilla-firefox
-liberation-fonts
-inkscape
-gimp
+firefox35--
+liberation-fonts--
 git-x11
-easytag
-vlc
-xpdf
