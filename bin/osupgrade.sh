@@ -2,24 +2,14 @@
 #
 # Automates snapshot upgrades a little bit
 
-test -n "$OS_PATH" || (echo "OS_PATH not set; exiting"; exit 1)
-
-DOWNLOAD="base* bsd* comp* etc* misc* man* game* x* pxeboot"
 EXTRACT_TARBALLS="base* comp* misc* man* game* xbase* xserv* xshare* xfont*"
-test -z $tempdl && tempdl=`mktemp -d`
 etctemp=`mktemp -d`
 
-mkdir -p $tempdl
-cd $tempdl 
-echo Downloading to $tempdl
-
-for file in $DOWNLOAD; do
-	echo "Getting $file"
-	ftp -4Va $OS_PATH/$file || (echo 'ftp failed; exiting'; rm -rf $tempdl; exit 1)
-done
+cd /famholst/openbsd/snapshots/$(uname -m)/
 
 # copy kernel into place
-sudo cp bsd /bsd
+echo New kernels ...
+sudo cp bsd bsd.mp bsd.rd /
 
 # extract relevant tarballs to root of drive, preserving permissions
 for i in $EXTRACT_TARBALLS;
@@ -30,8 +20,8 @@ for i in $EXTRACT_TARBALLS;
 done
 
 # extract etcXY.tgz and blindly copy certain files into place
-echo "Replacing unchanged files..."
 if [ -f /etc/unchangedfiles ]; then
+	echo "Replacing unchanged files..."
 	#sudo tar xzpf etc*.tgz -C $etctemp
 	cd $etctemp
 
@@ -41,4 +31,4 @@ if [ -f /etc/unchangedfiles ]; then
 fi
 
 cd ~
-rm -rf $tempdl $etctemp
+rm -rf $etctemp
