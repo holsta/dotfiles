@@ -38,9 +38,6 @@ set delete=yes
 set edit_headers=yes    # Include basic SMTP headers in text editor
 set editor="vim '+/^$'"
 
-set from="a@mongers.org"
-set realname="Alex Holst"
-
 set mark_old=no
 set mime_forward=no
 set move=no
@@ -64,7 +61,7 @@ set sidebar_width=30
 set metoo=no            # don't copy myself on group replies
 
 set postpone=ask-no     # ask if cancelled mail should get postponed
-set postponed="+[Gmail]/Drafts"
+set postponed="=[Gmail]/Drafts"
 set prompt_after=no     # don't make me hit a key when returning from pgp
 
 unset record		# imap records my sent mail
