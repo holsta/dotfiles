@@ -2,14 +2,20 @@
 
 # Interactive logins
 # This .profile needs to work everywhere I have accounts:
-# * My openbsd laptop
+# * OS X macbook 
 # * My openbsd fileserver
 # * The linux web host
 
 # Needed for svn/iconv
 export LC_CTYPE=da_DK.ISO8859-1
 
-PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:$JAVA_HOME/bin"
+# Find a proper JRE
+if [ -x /usr/local/jre-1.7.0/ ]; then
+	JAVA_HOME=/usr/local/jre-1.7.0/
+	export JAVA_HOME
+fi
+
+PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:$JAVA_HOME/bin:/usr/local/git/bin/"
 HOSTNAME="`hostname -s`"
 TERM=xterm-color
 LESSCHARSET=latin1
@@ -31,6 +37,11 @@ if [ "/bin/ksh" = "$SHELL" ]; then
 	set -o trackall
 else
 	echo note: This is not the public domain ksh.
+fi
+
+# vi keybindings on my macbook, please.
+if [ "/bin/bash" = "$SHELL" ]; then
+	set -o vi
 fi
 
 
@@ -75,6 +86,10 @@ publish () {
 	PUBLISHHOSTNAME=katie.klen.dk
 	PUBLISHPATH=/var/apache/holsta/a.mongers.org/x/
 
+	if [ -z "$SSH_AUTH_SOCK" ] && [ -z "$SSH_CLIENT" ]; then
+		sshsock
+	fi
+
 	for f in $PUBLISHFILES; do
 		if [ ! -f $f ]; then
 			echo "publish: $f not found."
@@ -87,17 +102,10 @@ publish () {
 
 	for i in $PUBLISHFILES; do
 		k=$(basename $i)
-		ssh $PUBLISHHOSTNAME chmod o+r $PUBLISHPATH$k
+		ssh $PUBLISHHOSTNAME 'chmod o+r $PUBLISHPATH$k'
 		echo $PUBLISHURL$k
 	done
 }
-
-function show_ports {
-	echo 'Network ports:'
-	fstat -u holsta | grep internet | grep -v ssh | grep -v firefox | awk {'print "    " $2 "  " $9'}
-	echo
-}
-
 
 # http://henrik.nyh.se/2008/12/git-dirty-prompt
 # http://www.simplisticcomplexity.com/2008/03/13/show-your-git-branch-name-in-your-prompt/
@@ -122,11 +130,6 @@ else
     export PS1='\[\e[0m\]\h\ \w$(parse_git_branch)$\[\e[0m\] '
 fi
 
-if [ -x /usr/local/jre-1.7.0/ ]; then
-	JAVA_HOME=/usr/local/jre-1.7.0/
-	export JAVA_HOME
-fi
-
 openbsdspecific() {
 OPENBSDVER=`sysctl kern.version`
 
@@ -143,8 +146,11 @@ OS_CURRENT=$OPENBSD_DK$OS_CURRENT_DIR
 
 # if kern.version contains -current
 case "$OPENBSDVER" in
-	*) PKG_PATH=$PKG_CURRENT
+	*-beta|*-current) PKG_PATH=$PKG_CURRENT
 			OS_PATH=$OS_CURRENT
+			;;
+	*) PKG_PATH=$PKG_STABLE
+			OS_PATH=$OS_STABLE
 			;;
 esac
 
@@ -175,24 +181,20 @@ worldsync() {
 			cd $i; git pull; cd ..
 		fi
 		if [ -x $i/.svn ]; then
-			# skip svn repos for now
-			cd $i; echo svn up; cd ..
+			cd $i; svn up; cd ..
 		fi
 	done
 }
 
 
 alias ls="ls -F"
-alias gsxy="/home/holsta/work/siteXYtools/generate"
 alias work="cd ~/work"		# shorthand for work dir
 
-# tvix passwords are not secret and not changable, so tell the github people
-# my tvix password, just to make life easier on myself.
-alias tvix='shlight //tvix/tvixhd1 /mnt/tvix -U tvixhd1 -P tvixhd1'
-
 # make it easier to update mayas website
-alias maya.mongers.org="ssh katie.klen.dk 'cd /var/apache/holsta/maya.mongers.org/htdocs/2009; svn up'"
+alias maya.mongers.org="ssh -t katie.klen.dk 'cd /var/apache/holsta/maya.mongers.org/htdocs/2009; svn up'"
 
+# ssh session to files
+alias files="ssh -t fileserver.inside.mongers.org 'tmux a'"
 # make it easier to run rtorrent inside screen
 stty start undef
 stty stop undef
@@ -200,12 +202,10 @@ stty stop undef
 
 # Machine dependant stuff is called here
 case "$HOSTNAME" in
-	tori)
+	x40)
 		openbsdspecific
-		show_ports
-		calendar -A 0
 		;;
-	fileserver)
+	files)
 		openbsdspecific
 		;;
 	gateway)
