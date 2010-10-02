@@ -4,5 +4,5 @@
 key stop = 's'
 
 ## Go to parent directory
-key go-parent-directory = 34,  263
+#key go-parent-directory = 34,  263
 
