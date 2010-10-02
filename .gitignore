@@ -84,4 +84,12 @@ Pictures
 .cups
 .inkscape-etc
 .lesshst
-.org.eclipse.epp.usagedata.recording.userId
+.org.eclipse.*
+Sites
+.eclipse
+.netbeans
+.pgpass
+.psql_history
+.MacOSX
+.adobe
+.bash_history
