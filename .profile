@@ -89,7 +89,7 @@ publish () {
 
 	PUBLISHURL=http://a.mongers.org/x/
 	PUBLISHHOSTNAME=katie.klen.dk
-	PUBLISHPATH=/var/apache/holsta/dominion/x/
+	PUBLISHPATH=/var/apache/holsta/a.mongers.org/x/
 
 	for f in $PUBLISHFILES; do
 		if [ ! -f $f ]; then
@@ -204,10 +204,7 @@ alias tvix='shlight //tvix/tvixhd1 /mnt/tvix -U tvixhd1 -P tvixhd1'
 alias maya.mongers.org="ssh -t katie.klen.dk 'cd /var/apache/holsta/maya.mongers.org/htdocs/2009; svn up'"
 
 # ssh session to files
-alias files="ssh -t fileserver.inside.mongers.org 'tmux a'"
-# make it easier to run rtorrent inside screen
-stty start undef
-stty stop undef
+alias files="ssh -t files.mongers.org 'tmux a'"
 
 
 # Machine dependant stuff is called here
