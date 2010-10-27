@@ -131,40 +131,10 @@ else
 fi
 
 openbsdspecific() {
-OPENBSDVER=`sysctl kern.version`
-
-OPENBSD_DK="ftp://ftp.eu.openbsd.org/pub/OpenBSD/"
-PKG_STABLE_DIR="`uname -r`/packages/`machine`/"
-PKG_CURRENT_DIR="snapshots/packages/`machine`/"
-OS_STABLE_DIR="`uname -r`/`machine`/"
-OS_CURRENT_DIR="snapshots/`machine`/"
-
-PKG_STABLE=$OPENBSD_DK$PKG_STABLE_DIR
-PKG_CURRENT=$OPENBSD_DK$PKG_CURRENT_DIR
-OS_STABLE=$OPENBSD_DK$OS_STABLE_DIR
-OS_CURRENT=$OPENBSD_DK$OS_CURRENT_DIR
-
-# if kern.version contains -current
-case "$OPENBSDVER" in
-	*-beta|*-current) PKG_PATH=$PKG_CURRENT
-			OS_PATH=$OS_CURRENT
-			;;
-	*) PKG_PATH=$PKG_STABLE
-			OS_PATH=$OS_STABLE
-			;;
-esac
-
-export PKG_PATH OS_PATH
-
-# Clean up our environment 
-unset OPENBSD_DK PKG_STABLE_DIR PKG_CURRENT_DIR \
-	OS_STABLE_DIR OS_CURRENT_DIR PKG_STABLE \
-	PKG_CURRENT OS_STABLE OS_CURRENT OPENBSDVER
-
-# Various openbsd-specific aliases 
-alias pkgup="sudo pkg_add -uiF update -F updatedepends"
-alias pkg_add="sudo pkg_add -i"
-alias osupgrade="cd ~/bin; sh osupgrade.sh"
+	# Various openbsd-specific aliases 
+	alias pkgup="sudo pkg_add -uiF update -F updatedepends"
+	alias pkg_add="sudo pkg_add -i"
+	alias osupgrade="cd ~/bin; sh osupgrade.sh"
 }
 
 
