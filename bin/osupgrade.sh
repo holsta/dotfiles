@@ -2,33 +2,40 @@
 #
 # Automates snapshot upgrades a little bit
 
-EXTRACT_TARBALLS="base* comp* misc* man* game* xbase* xserv* xshare* xfont*"
-etctemp=`mktemp -d`
+EXTRACT_TARBALLS="comp* man* game* base* xbase* xserv* xshare* xfont*"
 
-cd /famholst/openbsd/snapshots/$(uname -m)/
+if [ -d /famholst/openbsd/snapshots/$(uname -m)/ ]; then
+	cd /famholst/openbsd/snapshots/$(uname -m)/
 
 # copy kernel into place
 echo New kernels ...
 sudo cp bsd bsd.mp bsd.rd /
+sudo config -ef /bsd << end-of-config
+disable apm
+quit
+end-of-config
+
+sudo cp /sbin/reboot /root/reboot.$(uname -r)
+echo Saved reboot binary. You should sudo -s now.
 
 # extract relevant tarballs to root of drive, preserving permissions
 for i in $EXTRACT_TARBALLS;
 	do 
-	echo -n "Untarring $i ... "
-	sudo tar xzpf $i -C /;
-	echo "done."
-done
+		echo -n "Untarring $i ... "
+		sudo tar xzpf $i -C /
+		echo "done."
+	done
 
-# extract etcXY.tgz and blindly copy certain files into place
-if [ -f /etc/unchangedfiles ]; then
-	echo "Replacing unchanged files..."
-	#sudo tar xzpf etc*.tgz -C $etctemp
-	cd $etctemp
+# sysmerge  
+sudo sysmerge -b -s etc*
+sudo sysmerge -b -x xetc*
 
-	while read unchanged; do
-		echo cp $unchanged /
-	done < /etc/unchangedfiles
+else
+	echo warning: snapshot not available via NFS. 
+	REMOTE=ssh files.mongers.org
+	for i in $EXTRACT_TARBALLS;
+	do
+		$REMOTE 'cat $i' | sudo tar xzpf - -C /
+	done
 fi
 
-cd ~
-rm -rf $etctemp
