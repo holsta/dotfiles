@@ -52,6 +52,11 @@ syntax on
 set foldenable
 set foldmethod=marker
 
+" don't pollute directories with swap files, keep them in one place
+" inspired by jcs
+silent !mkdir -p ~/.vim/swp/
+set directory=~/.vim/swp//
+
 " highlights status line in active split"     
 	hi   StatusLine     ctermbg=red      ctermfg=black       cterm=NONE
 	hi   StatusLineNC   ctermbg=cyan     ctermfg=black       cterm=NONE
