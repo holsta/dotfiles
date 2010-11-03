@@ -5,6 +5,9 @@
 	co = checkout
 	ci = commit 
 	st = status
+	unstage = reset HEAD --
+	last = log -1 HEAD
+	recent = log -5 HEAD
 [color]
 	diff = auto
 	status = auto
