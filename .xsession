@@ -32,22 +32,6 @@ xset r rate 250 60
 # mouse speed
 xset m 5 1
 
-# Support for powerful, remote appserver..
-REMOTEAPPS="gimp inkscape firefox easytag audacity pidgin foo"
-
-for i in $REMOTEAPPS; do
-	if [ ! -x "`which $i`" ]; then
-		alias $i='remoteapp $i'
-	fi
-done
-
-remoteapp () {
-        appname=$1
-        apphost=appserver
-
-        ssh -Y $apphost '$appname'
-}
-
 # if we can read or write to apmdev, only then run wmapm
 if [ -w /var/run/apmdev ] || [ -r /var/run/apmdev ]; then
 	[ -x /usr/local/bin/wmapm ] && wmapm &
@@ -58,4 +42,4 @@ fi
 #	xidle -sw -timeout 0 & 
 #fi
 
-/usr/X11R6/bin/cwm
+exec /usr/X11R6/bin/cwm
