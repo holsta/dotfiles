@@ -5,7 +5,8 @@
 EXTRACT_TARBALLS="base* comp* misc* man* game* xbase* xserv* xshare* xfont*"
 etctemp=`mktemp -d`
 
-cd /famholst/openbsd/snapshots/$(uname -m)/
+#cd /famholst/openbsd/snapshots/$(uname -m)/
+cd /famholst/openbsd/4.8/$(uname -m)/
 
 # copy kernel into place
 echo New kernels ...
