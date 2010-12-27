@@ -130,43 +130,12 @@ else
     export PS1='\[\e[0m\]\h\ \w$(parse_git_branch)$\[\e[0m\] '
 fi
 
-openbsdspecific() {
-OPENBSDVER=`sysctl kern.version`
-
-OPENBSD_DK="ftp://ftp.eu.openbsd.org/pub/OpenBSD/"
-PKG_STABLE_DIR="`uname -r`/packages/`machine`/"
-PKG_CURRENT_DIR="snapshots/packages/`machine`/"
-OS_STABLE_DIR="`uname -r`/`machine`/"
-OS_CURRENT_DIR="snapshots/`machine`/"
-
-PKG_STABLE=$OPENBSD_DK$PKG_STABLE_DIR
-PKG_CURRENT=$OPENBSD_DK$PKG_CURRENT_DIR
-OS_STABLE=$OPENBSD_DK$OS_STABLE_DIR
-OS_CURRENT=$OPENBSD_DK$OS_CURRENT_DIR
-
-# if kern.version contains -current
-case "$OPENBSDVER" in
-	*-beta|*-current) PKG_PATH=$PKG_CURRENT
-			OS_PATH=$OS_CURRENT
-			;;
-	*) PKG_PATH=$PKG_STABLE
-			OS_PATH=$OS_STABLE
-			;;
-esac
-
-export PKG_PATH OS_PATH
-
-# Clean up our environment 
-unset OPENBSD_DK PKG_STABLE_DIR PKG_CURRENT_DIR \
-	OS_STABLE_DIR OS_CURRENT_DIR PKG_STABLE \
-	PKG_CURRENT OS_STABLE OS_CURRENT OPENBSDVER
+export PKG_PATH="/famholst/openbsd/`uname -r`/packages/`machine`/"
 
 # Various openbsd-specific aliases 
 alias pkgup="sudo pkg_add -uiF update -F updatedepends"
 alias pkg_add="sudo pkg_add -i"
 alias osupgrade="cd ~/bin; sh osupgrade.sh"
-}
-
 
 worldsync() {
 	# Handy alias to run before going offline for a long time.
@@ -203,13 +172,10 @@ stty stop undef
 # Machine dependant stuff is called here
 case "$HOSTNAME" in
 	x40)
-		openbsdspecific
 		;;
 	files)
-		openbsdspecific
 		;;
 	gateway)
-		openbsdspecific
 		;;
 	katie)
 		TERM=vt100
