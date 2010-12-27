@@ -4,12 +4,14 @@
 
 # Source local stuff.
 
-set folder="imaps://imap.gmail.com:993/"
-set mail_check=20
-set timeout=10
+#set folder="imaps://imap.gmail.com:993/"
+set folder=~/.Maildir
+
+#set mail_check=20
+#set timeout=10
 
 # passwords and mailboxes sourced from private file
-source ~/.mutt.personal
+#source ~/.mutt.personal
 
 # Configuration variables
 
@@ -61,7 +63,7 @@ set sidebar_width=30
 set metoo=no            # don't copy myself on group replies
 
 set postpone=ask-no     # ask if cancelled mail should get postponed
-set postponed="=[Gmail]/Drafts"
+#set postponed="=[Gmail]/Drafts"
 set prompt_after=no     # don't make me hit a key when returning from pgp
 
 unset record		# imap records my sent mail
@@ -69,7 +71,7 @@ set reply_to=yes
 set reverse_name=no	# in replies, use my own From:
 set reply_regexp="^([rR][eE]([\[0-9\]+])*|sv|aw|SV|AW|Sv|Aw|Vedr):[ \t]*"
 
-set spoolfile=+INBOX/
+set spoolfile="=INBOX"
 set strict_threads=yes
 set status_on_top=yes
 set sort=date
