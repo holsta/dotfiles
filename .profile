@@ -7,25 +7,19 @@
 # * The linux web host
 
 # Needed for svn/iconv
-export LC_CTYPE=da_DK.ISO8859-1
+LC_CTYPE=da_DK.ISO8859-1
 
-# Find a proper JRE
-if [ -x /usr/local/jre-1.7.0/ ]; then
-	JAVA_HOME=/usr/local/jre-1.7.0/
-	export JAVA_HOME
-fi
+export LC_CTYPE
 
-PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:$JAVA_HOME/bin:/usr/local/git/bin/"
+PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:$HOME/bin:/usr/local/git/bin/"
 HOSTNAME="`hostname -s`"
 TERM=xterm-color
 LESSCHARSET=latin1
 TZ=CET
 export TERM HOME MAIL LESSCHARSET PATH TZ 
 
-RSYNC_RSH=ssh
 CVSUMASK=007
-CVS_RSH=ssh
-export RSYNC_RSH CVSUMASK CVS_RSH
+export CVSUMASK
 
 unset MAILCHECK
 unset HISTFILE
@@ -135,8 +129,14 @@ openbsdspecific() {
 	alias pkgup="sudo pkg_add -uiF update -F updatedepends"
 	alias pkg_add="sudo pkg_add -i"
 	alias osupgrade="cd ~/bin; sh osupgrade.sh"
-}
+	alias ports='sqlite3 /usr/local/share/sqlports'
 
+	# Find a proper JRE
+	if [ -x /usr/local/jre-1.7.0/ ]; then
+		JAVA_HOME=/usr/local/jre-1.7.0/
+		export JAVA_HOME
+	fi
+}
 
 worldsync() {
 	# Handy alias to run before going offline for a long time.
@@ -145,12 +145,15 @@ worldsync() {
 	cd ~/work/
 	for i in $(find . -maxdepth 1 -type d); do 
 		if [ -x $i/CVS ]; then
+			echo "[$i]"
 			cd $i; cvs up; cd ..
 		fi
 		if [ -x $i/.git ]; then
+			echo "[$i]"
 			cd $i; git pull; cd ..
 		fi
 		if [ -x $i/.svn ]; then
+			echo "[$i]"
 			cd $i; svn up; cd ..
 		fi
 	done
@@ -172,13 +175,7 @@ stty stop undef
 
 # Machine dependant stuff is called here
 case "$HOSTNAME" in
-	x40)
-		openbsdspecific
-		;;
-	files)
-		openbsdspecific
-		;;
-	gateway)
+	x40|files|gateway|mpd-stue)
 		openbsdspecific
 		;;
 	katie)
