@@ -7,25 +7,19 @@
 # * The linux web host
 
 # Needed for svn/iconv
-export LC_CTYPE=da_DK.ISO8859-1
+LC_CTYPE=da_DK.ISO8859-1
 
-# Find a proper JRE
-if [ -x /usr/local/jre-1.7.0/ ]; then
-	JAVA_HOME=/usr/local/jre-1.7.0/
-	export JAVA_HOME
-fi
+export LC_CTYPE
 
-PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:$JAVA_HOME/bin:/usr/local/git/bin/"
+PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:$HOME/bin:/usr/local/git/bin/"
 HOSTNAME="`hostname -s`"
 TERM=xterm-color
 LESSCHARSET=latin1
 TZ=CET
 export TERM HOME MAIL LESSCHARSET PATH TZ 
 
-RSYNC_RSH=ssh
 CVSUMASK=007
-CVS_RSH=ssh
-export RSYNC_RSH CVSUMASK CVS_RSH
+export CVSUMASK
 
 unset MAILCHECK
 unset HISTFILE
@@ -121,7 +115,6 @@ function parse_git_branch {
 # Use my own PS1 
 #export PS1='\h \[\033[1;33m\]\w\[\033[0m\]$(parse_git_branch)$ ' 
 
-
 # turn the prompt red if the previous program exited with non-zero.
 if type -p printf > /dev/null 2>&1; then
     red=$(printf '\e[31m')
@@ -130,12 +123,19 @@ else
     export PS1='\[\e[0m\]\h\ \w$(parse_git_branch)$\[\e[0m\] '
 fi
 
-export PKG_PATH="/famholst/openbsd/`uname -r`/packages/`machine`/"
+openbsdspecific() {
+	# Various openbsd-specific aliases 
+	alias pkgup="sudo pkg_add -uiF update -F updatedepends"
+	alias pkg_add="sudo pkg_add -i"
+	alias osupgrade="cd ~/bin; sh osupgrade.sh"
+	alias ports='sqlite3 /usr/local/share/sqlports'
 
-# Various openbsd-specific aliases 
-alias pkgup="sudo pkg_add -uiF update -F updatedepends"
-alias pkg_add="sudo pkg_add -i"
-alias osupgrade="cd ~/bin; sh osupgrade.sh"
+	# Find a proper JRE
+	if [ -x /usr/local/jre-1.7.0/ ]; then
+		JAVA_HOME=/usr/local/jre-1.7.0/
+		export JAVA_HOME
+	fi
+}
 
 worldsync() {
 	# Handy alias to run before going offline for a long time.
@@ -144,12 +144,15 @@ worldsync() {
 	cd ~/work/
 	for i in $(find . -maxdepth 1 -type d); do 
 		if [ -x $i/CVS ]; then
+			echo "[$i]"
 			cd $i; cvs up; cd ..
 		fi
 		if [ -x $i/.git ]; then
+			echo "[$i]"
 			cd $i; git pull; cd ..
 		fi
 		if [ -x $i/.svn ]; then
+			echo "[$i]"
 			cd $i; svn up; cd ..
 		fi
 	done
@@ -163,19 +166,15 @@ alias work="cd ~/work"		# shorthand for work dir
 alias maya.mongers.org="ssh -t katie.klen.dk 'cd /var/apache/holsta/maya.mongers.org/htdocs/2009; svn up'"
 
 # ssh session to files
-alias files="ssh -t fileserver.inside.mongers.org 'tmux a'"
+alias files="ssh -t files.mongers.org 'tmux a'"
 # make it easier to run rtorrent inside screen
 stty start undef
 stty stop undef
 
-
 # Machine dependant stuff is called here
 case "$HOSTNAME" in
-	x40)
-		;;
-	files)
-		;;
-	gateway)
+	x40|files|gateway|mpd-stue)
+		openbsdspecific
 		;;
 	katie)
 		TERM=vt100

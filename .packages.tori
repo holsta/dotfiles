@@ -1,15 +1,21 @@
 # ==== works in the console
-vim--gtk2
-vifm
+vim--no_x11
 git--
-tig
-mercurial--
+git-svn--
+tig--
 mtr--
 pftop--
 ncmpc--
+googlecl--
+gnupg--
+# === cron
+offlineimap--
+rsync--
 # === requires X
 feh--
-recordmydesktop
-firefox35--
+recordmydesktop--
+mozilla-firefox--
 liberation-fonts--
-git-x11
+git-x11--
+minitube--
+gnuplot--
