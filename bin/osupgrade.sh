@@ -29,6 +29,7 @@ end-of-config
 	# sysmerge
 	sudo sysmerge -b -s etc*
 	sudo sysmerge -b -x xetc*
+	cd /dev; sudo sh ./MAKEDEV all
 
 else
 	echo warning: snapshot not available via NFS. 
