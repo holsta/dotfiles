@@ -22,7 +22,7 @@ remoteuser = a@mongers.org
 remotepassfile = ~/.private/imap
 maxconnections = 1
 realdelete = no
-folderfilter = lambda foldername: foldername in ['INBOX', 'source-changes', 'openbsd-tech']
+folderfilter = lambda foldername: foldername in ['INBOX', 'source-changes', 'openbsd-tech', 'sorring', 'e-boks']
 trashfolder = [Gmail]/Trash
 spamfolder = [Gmail]/Spam
 # vim: ft=cfg tw=0

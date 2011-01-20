@@ -4,14 +4,13 @@
 
 # Source local stuff.
 
-#set folder="imaps://imap.gmail.com:993/"
 set folder=~/.Maildir
 
 #set mail_check=20
 #set timeout=10
 
 # passwords and mailboxes sourced from private file
-#source ~/.mutt.personal
+source ~/.mutt.personal
 
 # Configuration variables
 
