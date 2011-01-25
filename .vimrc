@@ -10,7 +10,7 @@ set cino=>1s "my kinda c indentation
 set nobackup " get AWAY FROM ME with those automatic backups
 set nocompatible "Break VI cloning
 set complete=.,b,u,k,] " :h complete to find out where CTRL - {p,n} looks
-set dictionary=/usr/dict/words "ctrl-x, ctrl-k dictionary word completion
+set dictionary=/usr/share/dict/words "ctrl-x, ctrl-k dictionary word completion
 
 "Recognize gcc error formats
 set efm=%f:%l:\ %m,In\ file\ included\ from\ %f:%l:,\^I\^Ifrom\ %f:%l%m
@@ -55,7 +55,7 @@ set foldmethod=marker
 " don't pollute directories with swap files, keep them in one place
 " inspired by jcs
 silent !mkdir -p ~/.vim/swp/
-set directory=~/.vim/swp//
+set directory=~/.vim/swp/
 
 " highlights status line in active split"     
 	hi   StatusLine     ctermbg=red      ctermfg=black       cterm=NONE
