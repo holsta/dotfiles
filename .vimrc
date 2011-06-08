@@ -1,4 +1,4 @@
-" vim:ts=8
+" vim:ts=4
 " $Id: vimrc,v 1.7 2007/02/24 00:06:03 holsta Exp $
 version 7.0 
 
@@ -29,7 +29,6 @@ set report=0 "Show all changes for : commands
 set ruler "Show cursor position at all times
 set scrolljump=1 "How many lines to jump when you scroll off the window
 set scrolloff=3 "Minimum distance of cursor from edge of screen
-set shell=/bin/sh
 set shiftwidth=8 "Space to use for (auto)indent
 set shortmess=atI "Shorten status messages
 set showmatch " show matching bracket briefly
@@ -49,8 +48,8 @@ set nowriteany "use ! verification for dodgy file writes
 syntax on
 
 " support for folding
-set foldenable
-set foldmethod=marker
+	set foldenable
+	set foldmethod=marker
 
 " don't pollute directories with swap files, keep them in one place
 " inspired by jcs
@@ -66,6 +65,15 @@ au BufNewFile,BufReadPost mutt*,.article*,.followup,*.txt set tw=72 et noai
 
 " Coding; autoindent, textwidth 79, show matching {}, numbers 
 au BufNewFile,BufReadPost *.c,*.h,*.php,*.py,*.sh set ai tw=79 sm nu 
+
+" Source the vimrc file after saving it
+if has("autocmd")
+	autocmd! BufWritePost .vimrc source $MYVIMRC
+endif
+
+" Load vimrc in new tab when hitting ,v
+let mapleader = ","
+nmap <leader>v :tabedit $MYVIMRC<CR>
 
 " For *.c and *.h files set formatting of comments and set
 " C-indenting on.
