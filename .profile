@@ -8,6 +8,7 @@
 
 # Needed for svn/iconv
 LC_CTYPE=da_DK.ISO8859-1
+#LC_CTYPE=da_DK.UTF-8
 
 export LC_CTYPE
 
@@ -177,7 +178,7 @@ stty stop undef
 
 # Machine dependant stuff is called here
 case "$HOSTNAME" in
-	x40|files|gateway|mpd-stue)
+	x40|files|gateway|mpd-stue|fit)
 		openbsdspecific
 		;;
 	katie)
