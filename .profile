@@ -13,10 +13,9 @@ export LC_CTYPE
 
 PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:$HOME/bin:/usr/local/git/bin/"
 HOSTNAME="`hostname -s`"
-TERM=xterm-color
 LESSCHARSET=latin1
 TZ=CET
-export TERM HOME MAIL LESSCHARSET PATH TZ 
+export HOME MAIL LESSCHARSET PATH TZ 
 
 CVSUMASK=007
 export CVSUMASK
@@ -38,6 +37,11 @@ if [ "/bin/bash" = "$SHELL" ]; then
 	set -o vi
 fi
 
+# Account for terminal handling inside tmux. tmux likes to
+# use screen as TERM, and it must not be reset 
+if [ ! "screen" = "$TERM" ]; then
+	export TERM=xterm-color
+fi
 
 # If vim is available, use it. Otherwise assume vi is.
 if [ -x "`which vim`" ]; then 
