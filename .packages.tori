@@ -8,6 +8,9 @@ pftop--
 ncmpc--
 googlecl--
 gnupg--
+sc--
+postgresql-client
+mysql-client
 # === cron
 offlineimap--
 rsync--
@@ -15,7 +18,9 @@ rsync--
 feh--
 recordmydesktop--
 mozilla-firefox--
+chromium--
 liberation-fonts--
 git-x11--
 minitube--
 gnuplot--
+pgadmin3--
