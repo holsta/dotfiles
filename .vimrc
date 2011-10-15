@@ -46,6 +46,7 @@ set winheight=12 "Current window is always at least 12 lines tall
 set nowrap 
 set wrapmargin=0 "textwidth in reverse
 set nowriteany "use ! verification for dodgy file writes
+"set encoding=utf-8
 syntax on
 
 " support for folding
