@@ -9,6 +9,7 @@ XTerm*termName: pcvt25
 XTerm*visualBell: true
 XTerm*loginShell: true
 XTerm*pointerMode: 1
+#XTerm*locale: UTF-8
 # xterm copy&paste trick from http://www.davidsimmons.com/soft/xtermhacks/
 #XTerm*VT100.translations: #override : select-end(PRIMARY, CLIPBOARD, CUT_BUFFER0)
 
