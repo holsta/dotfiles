@@ -1,6 +1,6 @@
 [general]
 accounts = GoogleApps
-ui = Noninteractive.Basic
+ui = basic 
  
 [Account GoogleApps]
 localrepository = Local
@@ -20,9 +20,10 @@ ssl = yes
 remotehost = imap.gmail.com.
 remoteuser = a@mongers.org
 remotepassfile = ~/.private/imap
-maxconnections = 1
+maxconnections = 4
 realdelete = no
 folderfilter = lambda foldername: foldername in ['INBOX', 'source-changes', 'openbsd-tech', 'sorring', 'e-boks']
+#folderfilter = lambda foldername: foldername in ['source-changes', 'openbsd-tech']
 trashfolder = [Gmail]/Trash
 spamfolder = [Gmail]/Spam
 # vim: ft=cfg tw=0
