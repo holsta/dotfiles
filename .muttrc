@@ -28,8 +28,8 @@ set beep=no             # beep, and I'll break your neck.
 set beep_new=no         # New mail is not an excuse to beep. I will kill you.
 
 set certificate_file=~/.mutt/certificates
-set charset="iso-8859-1"
-set send_charset="iso-8859-1"
+set charset=utf-8
+set send_charset=iso-8859-1:utf-8
 set confirmcreate=no
 #set check_new=yes
 
