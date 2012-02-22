@@ -56,7 +56,7 @@ export EDITOR
 sshsock() {
 	# Find SSH authentication sockets that belong to us,
 	# and use the latest one.
-	export SSH_AUTH_SOCK=`find /tmp/ -user $USER  \
+	export SSH_AUTH_SOCK=`find /tmp/ssh-* -user $USER  \
 	-name 'agent*' 2>/dev/null | xargs ls -t | head -1`
 	# Did we find a ssh-agent socket?
 	if [ -S "$SSH_AUTH_SOCK" ]; then
@@ -172,9 +172,6 @@ alias maya.mongers.org="ssh -t katie.klen.dk 'cd /var/apache/holsta/maya.mongers
 
 # ssh session to files
 alias files="ssh -t files.mongers.org 'tmux a'"
-# make it easier to run rtorrent inside screen
-stty start undef
-stty stop undef
 
 # Machine dependant stuff is called here
 case "$HOSTNAME" in
