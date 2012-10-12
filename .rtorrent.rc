@@ -1,15 +1,15 @@
 # Resume between sessions/reboots
-session = ~/.sessions.rtorrent
+session = ~/.torrents
 
 # Save all files here
-directory = /famholst/new/.InProgress
+directory = ~/.torrents 
 
 # IP address reported to tracker, if we're behind NAT
-#ip = home.mongers.org
+ip = 78.156.97.125 
 
 # Watch a directory for new torrents, restart torrents that have been
 # copied back and stop those that have been deleted.
-schedule = watch_directory,5,5,load_start=/famholst/new/.torrents/*.torrent
+schedule = watch_directory,5,5,load_start=~/.torrents/*.torrent
 schedule = tied_directory,5,5,start_tied=
 schedule = untied_directory,5,5,close_untied=
 
@@ -23,14 +23,14 @@ port_range = 50000-50000
 dht=on
 
 # We have a fast network and a fast computer. Set limits accordingly.
-download_rate = 800
-upload_rate = 55
-max_open_files = 750
-max_open_sockets = 250
+#download_rate = 800
+#upload_rate = 55
+#max_open_files = 750
+#max_open_sockets = 250
 max_peers = 1000
 min_peers = 200
 
 # These three, especially hash_interval, speeds up hashing on BSD systems
-hash_read_ahead = 8
-hash_max_tries = 5
-hash_interval = 10 
+#hash_read_ahead = 8
+#hash_max_tries = 5
+#hash_interval = 10 
