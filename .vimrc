@@ -2,13 +2,13 @@
 " $Id: vimrc,v 1.7 2007/02/24 00:06:03 holsta Exp $
 version 7.0 
 
+set nocompatible
 set noautoindent "Don't Auto Indent by default
 set autowrite " Write to file when you switch out, also on :make
-set background=dark "I usually have a black background
+set background=light
 set backspace=indent,eol,start 
 set cino=>1s "my kinda c indentation
 set nobackup " get AWAY FROM ME with those automatic backups
-set nocompatible "Break VI cloning
 set complete=.,b,u,k,] " :h complete to find out where CTRL - {p,n} looks
 set dictionary=/usr/share/dict/words "ctrl-x, ctrl-k dictionary word completion
 
@@ -58,7 +58,7 @@ silent !mkdir -p ~/.vim/swp/
 set directory=~/.vim/swp/
 
 " highlights status line in active split"     
-	hi   StatusLine     ctermbg=red      ctermfg=black       cterm=NONE
+	hi   StatusLine     ctermbg=gray      ctermfg=black       cterm=NONE
 	hi   StatusLineNC   ctermbg=cyan     ctermfg=black       cterm=NONE
 
 " mail and news, textwidth 72, tabs expanded, don't autoindent
