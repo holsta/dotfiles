@@ -1,27 +1,59 @@
-# ==== works in the console
+# Execute as:
+#	pkg_add -f .packages.tori
+#
+# console: doing actual work
 vim--no_x11
 git--
 git-svn--
 tig--
-mtr--
-pftop--
+go--
+python--
+nasm--
+texlive_base--
+llvm--
+# console: planning, music
 ncmpc--
 googlecl--
+zim--
+# console: sysutils
+rsync--
+cvsync--
+mtr--
+pftop--
 gnupg--
 sc--
 postgresql-client
+pg_top--
 mysql-client
-## newsbeuter -- console rss reader w/google reader sync
-# === cron
+R--
+pygame--
+p7zip--
+hexcurse--
+libvirt--
+virt-viewer--
+# communication: mail, news, comms, chat
+mutt--sasl-sidebar-compressed
 offlineimap--
-rsync--
-# === requires X
-feh--
-recordmydesktop--
+irssi--
+pjsua--
+newsbeuter--
+# docs
+diveintopython--
+grokking-the-gimp--
+# === cron
+# X: doing actual work
+git-x11--
 mozilla-firefox--
 chromium--
-liberation-fonts--
-git-x11--
-minitube--
-gnuplot--
 pgadmin3--
+gnuplot--
+# X: graphics / audio
+feh--
+inkscape--
+blender--
+gimp--
+audacity--
+recordmydesktop--
+vlc--
+liberation-fonts--
+minitube--
