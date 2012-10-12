@@ -1,4 +1,4 @@
-XTerm*background: black
+XTerm*background: white 
 XTerm*foreground: grey
 XTerm*ColorMode*boldColors: false
 XTerm*fontSize: 14

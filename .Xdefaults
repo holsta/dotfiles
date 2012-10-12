@@ -1,5 +1,5 @@
-XTerm*background: black
-XTerm*foreground: grey
+XTerm*background: white
+XTerm*foreground: black
 XTerm*ColorMode*boldColors: false
 XTerm*fontSize: 14
 XTerm*transpscrollbar: true
