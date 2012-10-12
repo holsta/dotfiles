@@ -175,7 +175,7 @@ alias files="ssh -t files.mongers.org 'tmux a'"
 
 # Machine dependant stuff is called here
 case "$HOSTNAME" in
-	x40|files|gateway|mpd-stue|fit)
+	x40|files|gateway|fit)
 		openbsdspecific
 		;;
 	katie)
