@@ -28,8 +28,8 @@ set beep=no             # beep, and I'll break your neck.
 set beep_new=no         # New mail is not an excuse to beep. I will kill you.
 
 set certificate_file=~/.mutt/certificates
-set charset=utf-8
-set send_charset=iso-8859-1:utf-8
+#set charset=utf-8
+set send_charset=utf-8:iso-8859-1
 set confirmcreate=no
 #set check_new=yes
 
@@ -73,7 +73,7 @@ set reply_regexp="^([rR][eE]([\[0-9\]+])*|sv|aw|SV|AW|Sv|Aw|Vedr):[ \t]*"
 set spoolfile="=INBOX"
 set strict_threads=yes
 set status_on_top=yes
-set sort=date
+set sort=threads
 
 ## Keyboard bindings, colour and GnuPG settings you won't need to touch.
 
