@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # A nice solid background colour, please
-xsetroot -solid black
+xsetroot -solid white 
 # keyboard repeat rate 
 xset r rate 250 60
 # mouse speed
