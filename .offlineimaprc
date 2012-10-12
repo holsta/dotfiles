@@ -18,12 +18,12 @@ restoreatime = no
 type = IMAP
 ssl = yes
 remotehost = imap.gmail.com.
+cert_fingerprint = 6d1b5b5ee0180ab493b71d3b94534b5ab937d042
 remoteuser = a@mongers.org
 remotepassfile = ~/.private/imap
 maxconnections = 4
 realdelete = no
-folderfilter = lambda foldername: foldername in ['INBOX', 'source-changes', 'openbsd-tech', 'sorring', 'e-boks']
-#folderfilter = lambda foldername: foldername in ['source-changes', 'openbsd-tech']
+folderfilter = lambda foldername: foldername not in ['[Gmail]/All Mail', '[Gmail]/Trash','[Gmail]/Spam','[Gmail]/Starred']
 trashfolder = [Gmail]/Trash
 spamfolder = [Gmail]/Spam
 # vim: ft=cfg tw=0
