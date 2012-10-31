@@ -77,6 +77,16 @@ if [ -z "$SSH_AUTH_SOCK" ] && [ -z "$SSH_CLIENT" ]; then
 	sshsock
 fi
 
+# Offer a decent way of generating passwords across all systems.
+# -n 1 (one password)
+# -m 40 (string length 20)
+# -M SNCL (must contain special chars, numbers, upper case, lower case)
+if [ -x /usr/local/bin/apg ]; then
+	alias newpassword='apg -n 1 -m 40 -M SNCL'
+else
+	alias newpassword='openssl rand -base64 40'
+fi
+
 # copy files to temp location 
 publish () {
 	PUBLISHFILES=$*
