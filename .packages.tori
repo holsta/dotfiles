@@ -43,7 +43,7 @@ grokking-the-gimp--
 # === cron
 # X: doing actual work
 git-x11--
-mozilla-firefox--
+firefox--
 chromium--
 pgadmin3--
 gnuplot--
