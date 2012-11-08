@@ -13,19 +13,24 @@ OS_PATH=$(grep ^installpath /etc/pkg.conf | sed 's/packages\///g' | awk '{ print
 mkdir -p $UPGRADE_PATH
 echo cd $UPGRADE_PATH 
 cd $UPGRADE_PATH 
-ftp -a ${OS_PATH}"bsd*"
+
+# Check for local copies of OpenBSD, otherwise get
+# a copy
+if [ ! -f bsd* ]; then
+	ftp -a ${OS_PATH}"bsd*"
+fi
 
 # Don't bother upgrading if the mirror holds a kernel
 # identical to the installed kernel.
-if [ ! $(diff -q /bsd.mp $UPGRADE_PATH/bsd.mp) -a 
-	! $(diff -q /bsd.sp $UPGRADE_PATH/bsd) ]; 
-	then
+if [ ! $(diff -q /bsd.mp $UPGRADE_PATH/bsd.mp) -a ! $(diff -q /bsd.sp $UPGRADE_PATH/bsd) ]; then
 	echo Mirrored kernel unchanged.
 	#exit 1
 fi
 
 # Remote kernel changed, get the rest.
-ftp -a $OS_PATH*.tgz
+if [ ! -f *.tgz ]; then
+	ftp -a $OS_PATH*.tgz
+fi
 
 sudo mount -uw /usr
 sudo mount -uw /usr/local
@@ -52,13 +57,12 @@ do
 done
 
 # sysmerge
-sudo sysmerge -b -s etc*
-sudo sysmerge -b -x xetc*
+sudo sysmerge -b -s etc* -x xetc*
 cd /dev; sudo sh ./MAKEDEV all
 
 # Package upgrade and remove obsolete dependencies
 cd /tmp
-sudo pkg_add -ui
+sudo pkg_add -u
 sudo pkg_delete -a
 
 # Read-only partitions
