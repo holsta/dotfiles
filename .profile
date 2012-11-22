@@ -143,7 +143,7 @@ openbsdspecific() {
 	alias pkgup="sudo pkg_add -uiF update -F updatedepends"
 	alias pkg_add="sudo pkg_add -i"
 	alias osupgrade="cd ~/bin; sh osupgrade.sh"
-	alias ports='sqlite3 /usr/local/share/sqlports'
+	alias ports='test -f /usr/local/share/sqlports && sqlite3 /usr/local/share/sqlports'
 
 	# Find a proper JRE
 	if [ -x /usr/local/jre-1.7.0/ ]; then
