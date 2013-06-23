@@ -1,0 +1,44 @@
+#!/bin/sh
+USER=holsta
+
+DEVCLASS=$1
+DEVNAME=$2
+
+logger -t hotplugd Attached devclass: $DEVCLASS devname: $DEVNAME
+
+case $DEVCLASS in
+0) # when I power on the USB audio card, mpd doesn't notice
+        case $DEVNAME in
+        uaudio*)
+                if [ -x /etc/rc.d/mpd ]; then
+                        /etc/rc.d/mpd restart
+                        logger -t hotplugd mpd restarted
+                fi
+        ugen*)
+                logger -t hotplugd $DEVNAME: No such luck.
+                ;;
+        *)
+                logger -t hotplugd $DEVNAME: Unknown.
+                ;;
+   esac
+   ;;
+
+2)
+   # from http://tp76.info/stuff/etc_hotplugd_attach
+   mnt=$(mktemp -d -p /mnt umass-XXXX)
+   chmod 755 ${mnt}
+   for dev in /dev/${DEVNAME}[a-p]; do
+      if mount ${DEVNAME} ${mnt}; then
+         DISPLAY=:0.0 sudo -i -u ${USER} "cd ${mnt} && xterm"
+         umount ${mnt}
+         rmdir ${mnt}
+         break
+      fi
+   done
+3)
+   # network devices; requires hostname.$DEVNAME
+   sh /etc/netstart $DEVNAME
+   ;;
+esac
+
+exit 0
