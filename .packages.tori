@@ -1,5 +1,5 @@
 # Execute as:
-#	pkg_add -f .packages.tori
+#	pkg_add -l .packages.tori
 #
 # console: doing actual work
 vim--no_x11
@@ -8,6 +8,7 @@ git-svn--
 tig--
 go--
 python--
+ipython--
 nasm--
 texlive_base--
 llvm--
@@ -22,11 +23,13 @@ mtr--
 pftop--
 gnupg--
 sc--
-postgresql-client
+postgresql-client--
 pg_top--
 mysql-client
 R--
 pygame--
+py-scipy--
+py-matplotlib--
 p7zip--
 hexcurse--
 libvirt--
@@ -57,3 +60,12 @@ recordmydesktop--
 vlc--
 liberation-fonts--
 minitube--
+shotwell--
+# emulation, electronics, education
+openscad--
+kicad--
+chipmunk--
+freemat--
+fritzing--
+aqsis--
+qemu--
