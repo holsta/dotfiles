@@ -1,0 +1,10 @@
+config {
+	    hostname ftp5.eu.openbsd.org
+
+	    collection {
+		name openbsd release rcs
+		prefix /var/cvsync
+		umask 002
+	    }
+	}
+
