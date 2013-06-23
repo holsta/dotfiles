@@ -1,0 +1,182 @@
+# muttrc
+# $Id: muttrc,v 1.5 2006/01/21 15:41:27 holsta Exp $
+#
+
+# Source local stuff.
+
+set folder=~/.Maildir
+
+#set mail_check=20
+#set timeout=10
+
+# passwords and mailboxes sourced from private file
+source ~/.mutt/personal
+source ~/.mutt/colours
+#source ~/.mutt/mutt-colors-solarized-light-16.muttrc
+
+# Configuration variables
+
+set abort_nosubject=ask-yes # Yell if I try to send mail with no subject.
+set abort_unmodified=yes        # Unmodified messages should be thrown away
+set alias_file=~/.mutt.aliases
+set allow_8bit=yes      # 
+set arrow_cursor=no
+set ascii_chars=no      # use ACS for threads, not ASCII
+set attribution="Quoting %n (%a):"
+set wait_key=no
+set autoedit=yes        # don't ask silly questions, just spawn my editor
+
+set beep=no             # beep, and I'll break your neck.
+set beep_new=no         # New mail is not an excuse to beep. I will kill you.
+
+set certificate_file=~/.mutt/certificates
+#set charset=utf-8
+set send_charset=utf-8
+set confirmcreate=no
+#set check_new=yes
+
+set date_format="%I:%M %b %d"
+set delete=yes
+
+set edit_headers=yes    # Include basic SMTP headers in text editor
+set editor="vim '+/^$'"
+
+set mark_old=no
+set mime_forward=no
+set move=no
+set mbox_type=Maildir   # We want Maildir.
+
+set header_cache=~/.mutt/cache/headers
+set message_cachedir=~/.mutt/cache/bodies
+
+set help=no             # don't show helpbar at the bottom.
+
+set imap_idle=yes
+set imap_check_subscribed=yes
+set imap_list_subscribed=yes 
+set include=yes
+set index_format="%Z %[!%y%m%d] %-17.17F %s"
+set status_format="%v: %f (%s) [%M/%m] [N=%n,*=%t,post=%p,new=%b]"
+
+set sidebar_visible=no	# 'c' toggles sidebar on and off
+set sidebar_width=30
+
+set metoo=no            # don't copy myself on group replies
+
+set postpone=ask-no     # ask if cancelled mail should get postponed
+#set postponed="=[Gmail]/Drafts"
+set prompt_after=no     # don't make me hit a key when returning from pgp
+
+unset record		# imap records my sent mail
+set reply_to=yes
+set reverse_name=no	# in replies, use my own From:
+set reply_regexp="^([rR][eE]([\[0-9\]+])*|sv|aw|SV|AW|Sv|Aw|Vedr):[ \t]*"
+
+set spoolfile="=INBOX"
+set strict_threads=yes
+set status_on_top=yes
+set sort=threads
+
+## Keyboard bindings, colour and GnuPG settings you won't need to touch.
+
+bind attach ' ' select-entry
+bind attach \Cg exit
+
+bind editor \C? backspace
+
+bind index   \t          next-unread
+bind pager   \t          next-unread
+bind index  ,\t      previous-unread
+bind pager  ,\t      previous-unread
+bind index V   show-version
+bind pager V   show-version
+
+# Repositioning messages and moving around
+bind index zt current-top
+bind index zz current-middle
+bind index zb current-bottom
+
+bind index <pagedown>     next-page
+bind index <pageup>   previous-page
+
+bind index \Cb      previous-page
+bind index \Cf  forget-passphrase # \Cv --> 'f'orget-passphrase
+
+bind index \Cx      sync-mailbox  # \Cx ->"sync-mailbox"
+
+# 
+macro index,pager A "<enter-command>unset trash\n <delete-message>" "Gmail archive message"
+
+# calling the webbrowser through use of urlview:
+macro index \cb "|urlview\n"
+
+macro index I "c!\n"
+macro pager I "c!\n"
+
+# Invoking relaydb on spam
+macro index S "|relaydb -b\n"
+
+# ctrl-n, ctrl-p to select next, prev folder
+# ctrl-o to open selected folder
+bind index K sidebar-prev
+bind index J sidebar-next
+bind index y sidebar-open
+bind pager K sidebar-prev
+bind pager J sidebar-next
+bind pager y sidebar-open
+
+#macro pager y 'sidebar-open<enter>toggle sidebar_visible<enter><refresh>'
+#macro index y 'sidebar-open<enter>toggle sidebar_visible<enter><refresh>'
+macro index c '<enter-command>toggle sidebar_visible<enter><refresh>'
+macro pager c '<enter-command>toggle sidebar_visible<enter><redraw-screen>'
+
+## ===========================
+## Bindings for pager
+## ===========================
+
+# pager bindings - vi style bindings
+
+bind pager \Cn half-down
+bind pager \Cp half-up
+
+bind pager t   top
+bind pager ^   top
+
+bind pager G   bottom
+bind pager $   bottom
+
+bind pager /   search
+
+bind pager n   next-undeleted
+
+bind pager p   previous-undeleted
+#bind pager P   print-message
+
+bind pager L   list-reply 
+
+bind pager ,b   bounce-message    
+bind pager ,f   forward-message   
+bind pager ,g   group-reply       
+bind pager ,m   mail              
+bind pager ,L   list-reply        
+bind pager ,n   reply             
+bind pager ,r   reply             
+bind pager ,a   reply               # 'a' is for "answer"
+bind pager ,j   next-undeleted    
+bind pager ,k   previous-undeleted
+
+## Bind default mail commands to jump commands
+bind pager backspace   previous-line     
+bind pager g   top               
+bind pager j   next-line         
+bind pager k   previous-line     
+bind pager m   mail
+bind pager L   list-reply
+bind pager r   reply        
+                      
+bind pager :  enter-command
+
+#charset-hook
+#folder-hook
+
+
