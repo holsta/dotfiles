@@ -1,0 +1,105 @@
+﻿set nocompatible
+
+if has('gui_running')
+        set guifont=Lucida_Console:h9:cANSI
+        set guioptions=-B
+endif
+
+syntax on
+filetype indent plugin on
+
+let mapleader = ","
+
+" Appearance {{{
+source ~/.vim/statusline
+set background=light
+" }}}
+" File actions {{{
+" don't pollute directories with swap files, keep them in one place
+" inspired by jcs
+silent !mkdir -p ~/.vim/swp/ ~/.vim/undo
+set directory=~/.vim/swp//
+set undodir=~/.vim/undo//
+set nobackup " don't put ~ files everywhere
+set noswapfile " don't put .swp files everywhere
+set undofile
+set undoreload=10000
+set viminfo=%,'50,\"100,:100,n~/.viminfo ".viminfo file settings
+" }}}
+" Cursor behaviour {{{
+set autoindent " Auto Indent, except for specific filetypes
+set backspace=indent,eol,start 
+set ruler "Show cursor position at all times
+set showmatch " show matching bracket briefly
+set scrolljump=1 "How many lines to jump when you scroll off the window
+set scrolloff=3 "Minimum distance of cursor from edge of screen
+set sidescroll=0 "How far to scroll sideways at a time
+set smartcase "Smarter than ignore case
+set smarttab "shiftwidth and tabstop tabbing
+set tabstop=4 "How wide a tab is
+set softtabstop=4
+set shiftwidth=4
+" }}}
+
+" Window behaviour {{{
+set winheight=12 "Current window is always at least 12 lines tall
+set splitbelow "I like new windows to appear on the bottom
+" }}}
+
+set dictionary=/usr/share/dict/words "ctrl-x, ctrl-k dictionary word completion
+
+set autowrite " Write to file when you switch out, also on :make
+"Recognize gcc error formats
+set expandtab " Spaces
+set helpheight=0 "Help screen defaults to half of the current window
+set hidden
+set hlsearch "highlight stuff you search for
+set iskeyword=@,48-57,_,192-255,-,. "add - and . as keyword characters
+set laststatus=2 "We want the status line
+
+set path=.,./include,../include,/usr/include,/usr/src/include/,/usr/local/include,~
+set report=0 "Show all changes for : commands
+set shortmess=atI "Shorten status messages
+set notitle "Don't set Xterm titles
+set wildchar=<TAB> "Command Line completion uses <TAB>
+set nowrap 
+set wrapmargin=0 "textwidth in reverse
+set nowriteany "use ! verification for dodgy file writes
+set bomb " byte-order mark helps vim recognise utf-8 files
+set fileencodings=utf-8
+
+" support for folding
+set foldenable
+set foldmethod=marker
+
+
+" highlights status line in active split"     
+	hi   StatusLine     ctermbg=gray      ctermfg=black       cterm=NONE
+	hi   StatusLineNC   ctermbg=cyan     ctermfg=black       cterm=NONE
+
+" mail and news, textwidth 72, don't autoindent
+au BufNewFile,BufReadPost mutt*,.article*,.followup,*.txt set tw=72 sm noai
+
+" Coding; autoindent, textwidth 79, show matching {}, numbers 
+au BufNewFile,BufReadPost *.c,*.h,*.php,*.py,*.sh set ai tw=79 sm nu 
+
+" For *.c and *.h files set formatting of comments and set
+" C-indenting on.
+au BufNewFile,BufRead *.c,*.h set formatoptions=croql cindent comments=sr:/*,mb:*,el:*/,:// ts=8 nu sw=2 
+au BufNewFile,BufRead Makefile,*.mk set ts=8 noexpandtab
+
+" yaml needs spaces
+au BufnewFile,BufRead *.yaml,*.yml set ts=2 sw=2 st=2 expandtab
+
+" cvs commit messages; wrapped at 72 and tabs get expanded
+au BufNewFile,BufRead /tmp/cvs[0-9A-Z]* set tw=72 et wrap noai
+
+" Source the vimrc file after saving it
+if has("autocmd")
+	autocmd! BufWritePost .vimrc source $MYVIMRC
+endif
+
+" Load vimrc in new tab when hitting ,v
+nmap <leader>v :tabedit $MYVIMRC<CR>
+
+
