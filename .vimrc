@@ -1,85 +1,379 @@
-" vim:ts=4
-" $Id: vimrc,v 1.7 2007/02/24 00:06:03 holsta Exp $
-version 7.0 
+" .vimrc
+" Author: Alex Holst <a@mongers.org>
+" Location: http://github.com/holsta/dotfiles/.vimrc
 
+" Customised to my personal and work environments; currently based on plain
+" Vim with zero plugins.
+" Stolen^WHeavily inspired by Steve Losh, Connor McDaniel.
+
+" Basic setup {{{
 set nocompatible
-set noautoindent "Don't Auto Indent by default
-set autowrite " Write to file when you switch out, also on :make
-set background=light
-set backspace=indent,eol,start 
-set cino=>1s "my kinda c indentation
-set nobackup " get AWAY FROM ME with those automatic backups
-set complete=.,b,u,k,] " :h complete to find out where CTRL - {p,n} looks
-set dictionary=/usr/share/dict/words "ctrl-x, ctrl-k dictionary word completion
 
-"Recognize gcc error formats
-set efm=%f:%l:\ %m,In\ file\ included\ from\ %f:%l:,\^I\^Ifrom\ %f:%l%m
-set noexpandtab "Use real tabs instead of spaces
-set helpheight=0 "Help screen defaults to half of the current window
-set hidden
-set hlsearch "highlight stuff you search for
-set iskeyword=@,48-57,_,192-255,-,. "add - and . as keyword characters
-"set keywordprg "K runs man on the current word by default
-set laststatus=2 "We want the status line
-set mef=~/tmp/m-error## "Name of :make error files
-
-"These are all in my paths, trust me I want them all :)
-set path=.,./include,../include,/usr/include,/usr/local/include,~
-set report=0 "Show all changes for : commands
-set ruler "Show cursor position at all times
-set scrolljump=1 "How many lines to jump when you scroll off the window
-set scrolloff=3 "Minimum distance of cursor from edge of screen
-set shiftwidth=8 "Space to use for (auto)indent
-set shortmess=atI "Shorten status messages
-set showmatch " show matching bracket briefly
-set sidescroll=0 "How far to scroll sideways at a time
-set smartcase "Smarter than ignore case
-set smarttab "shiftwidth and tabstop tabbing
-set splitbelow "I like new windows to appear on the bottom
-set tabstop=8 "How wide a tab is
-set textwidth=0 "Maximum text width
-set notitle "Don't set Xterm titles
-set viminfo=%,'50,\"100,:100,n~/.viminfo ".viminfo file settings
-set wildchar=<TAB> "Command Line completion uses <TAB>
-set winheight=12 "Current window is always at least 12 lines tall
-set nowrap 
-set wrapmargin=0 "textwidth in reverse
-set nowriteany "use ! verification for dodgy file writes
-"set encoding=utf-8
 syntax on
+filetype indent plugin on
+let mapleader = ","
 
-" support for folding
-	set foldenable
-	set foldmethod=marker
+if has('gui_running')
+" Windows/gvim-specifikke indstillinger
+    set guifont=Consolas:h10:cANSI
+    set directory=%TEMP%
+    set path=.,*/*,../,%USERPROFILE%\Desktop,%TMP%
+    set colorcolumn=80
+    set guioptions-=T
+	set encoding=utf-8
+else
+" UNIX-specifikke indstillinger
+    set path=.,*/*,../
+endif
 
-" don't pollute directories with swap files, keep them in one place
-" inspired by jcs
-silent !mkdir -p ~/.vim/swp/
-set directory=~/.vim/swp/
+" }}}
+" Appearence {{{
+set background=light
 
 " highlights status line in active split"     
 	hi   StatusLine     ctermbg=gray      ctermfg=black       cterm=NONE
 	hi   StatusLineNC   ctermbg=cyan     ctermfg=black       cterm=NONE
 
-" mail and news, textwidth 72, tabs expanded, don't autoindent
-au BufNewFile,BufReadPost mutt*,.article*,.followup,*.txt set tw=72 et noai
+" }}}
+" Statusline setup {{{
+set statusline =%#identifier#
+set statusline+=%F\    "tail of the filename
+set statusline+=%*
 
+"modified flag
+set statusline+=%#identifier#
+set statusline+=%m
+set statusline+=%*
+
+set statusline+=%=      "left/right separator
+
+"display a warning if fileformat isnt unix
+set statusline+=%#warningmsg#
+set statusline+=%{&ff!='unix'?'['.&ff.']':''}
+set statusline+=%*
+
+"display a warning if file encoding isnt utf-8
+set statusline+=%#warningmsg#
+set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}
+set statusline+=%*
+
+set statusline+=%b\
+
+set statusline+=%h      "help file flag
+set statusline+=%y\      "filetype
+
+"read only flag
+set statusline+=%#identifier#
+set statusline+=%r
+set statusline+=%*
+
+set statusline+=%c,     "cursor column
+set statusline+=%l/%L   "cursor line/total lines
+set statusline+=\ %P    "percent through file
+set laststatus=2
+" }}}
+" Convenience mappings {{{
+" Toggle line numbers
+nnoremap <leader>n :setlocal number!<cr>
+
+" Sort lines
+nnoremap <leader>s vip:!sort<cr>
+vnoremap <leader>s :!sort<cr>
+
+" Clean trailing whitespace
+nnoremap <leader>ww mz:%s/\s\+$//<cr>:let @/=''<cr>`z
+
+" Toggle paste
+nnoremap <F6> :set paste!<cr>
+
+" Toggle [i]nvisible characters
+nnoremap <leader>i :set list!<cr>
+
+" }}}
+" File operations {{{
+" don't pollute directories with swap files, keep them in one place
+" inspired by jcs
+silent !mkdir -p ~/.vim/swp/ ~/.vim/undo
+set autowrite
+set directory=~/.vim/swp//
+set undodir=~/.vim/undo//
+set nobackup
+set noswapfile
+set fileencodings=utf-8,utf-16le,latin-1
+set undofile
+set undoreload=10000
+set viminfo=%,'50,\"100,:100,n~/.viminfo ".viminfo file settings
+" }}}
+" Cursor behaviour/movement {{{
+set backspace=indent,eol,start 
+set autoindent 
+set ruler "Show cursor position at all times
+set scrolljump=1 "How many lines to jump when you scroll off the window
+set scrolloff=3 "Minimum distance of cursor from edge of screen
+set tabstop=4 "How wide a tab is
+set softtabstop=4
+set shiftwidth=4 "Space to use for (auto)indent
+set textwidth=0 "Maximum text width
+set smarttab "shiftwidth and tabstop tabbing
+" }}}
+" Search behaviour {{{
+set hlsearch "highlight stuff you search for
+set incsearch
+set showmatch
+set smartcase "Smarter than ignore case
+" }}}
+" Window behaviour {{{
+set winheight=12
+set splitbelow
+set title " Xterm titles
+" }}}
+" Text annotation options {{{
+set list
+set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
+set synmaxcol=250 " Do not syntax highlight long lines
+" }}}
+" Folding {{{
+	set foldenable
+	set foldmethod=marker
+" }}}
+" Filetype specific {{{ 
 " Coding; autoindent, textwidth 79, show matching {}, numbers 
 au BufNewFile,BufReadPost *.c,*.h,*.php,*.py,*.sh set ai tw=79 sm nu 
+" C {{{
+set efm=%f:%l:\ %m,In\ file\ included\ from\ %f:%l:,\^I\^Ifrom\ %f:%l%m
+set mef=~/tmp/m-error## "Name of :make error files
+" For *.c and *.h files set formatting of comments and set
+" C-indenting on.
+augroup ft_c
+	au!
+	au FileType c setlocal foldmethod=marker foldmarker={,}
+	au BufNewFile,BufRead *.c,*.h set formatoptions=croql cindent comments=sr:/*,mb:*,el:*/,:// ts=8 nu sw=2 ai et
+augroup END
+" }}}
+" CVS, yes really {{{
+au BufNewFile,BufRead /tmp/cvs[0-9A-Z]* set tw=72 et wrap noai
+" }}}
+" CSS and LessCSS {{{
+
+augroup ft_css
+    au!
+
+    au BufNewFile,BufRead *.less setlocal filetype=less
+
+    au Filetype less,css setlocal foldmethod=marker
+    au Filetype less,css setlocal foldmarker={,}
+    au Filetype less,css setlocal omnifunc=csscomplete#CompleteCSS
+    au Filetype less,css setlocal iskeyword+=-
+
+    " Use <leader>S to sort properties.  Turns this:
+    "
+    "     p {
+    "         width: 200px;
+    "         height: 100px;
+    "         background: red;
+    "
+    "         ...
+    "     }
+    "
+    " into this:
+
+    "     p {
+    "         background: red;
+    "         height: 100px;
+    "         width: 200px;
+    "
+    "         ...
+    "     }
+    au BufNewFile,BufRead *.less,*.css nnoremap <buffer> <localleader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
+
+    " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
+    " positioned inside of them AND the following code doesn't get unfolded.
+    au BufNewFile,BufRead *.less,*.css inoremap <buffer> {<cr> {}<left><cr><space><space><space><space>.<cr><esc>kA<bs>
+augroup END
+
+" }}}
+" Git {{{
+au BufNewFile,BufRead .git/COMMIT_EDITMSG set tw=72 et wrap noai
+" }}}
+" HTML, Django, Jinja, Dram {{{
+
+let g:html_indent_tags = ['p', 'li']
+
+augroup ft_html
+    au!
+
+    au BufNewFile,BufRead *.html setlocal filetype=htmldjango
+    au BufNewFile,BufRead *.dram setlocal filetype=htmldjango
+
+    au FileType html,jinja,htmldjango setlocal foldmethod=manual
+
+    " Use <localleader>f to fold the current tag.
+    au FileType html,jinja,htmldjango nnoremap <buffer> <localleader>f Vatzf
+
+    " Use <localleader>t to fold the current templatetag.
+    au FileType html,jinja,htmldjango nmap <buffer> <localleader>t viikojozf
+
+    " Indent tag
+    au FileType html,jinja,htmldjango nnoremap <buffer> <localleader>= Vat=
+
+    " Django tags
+    au FileType jinja,htmldjango inoremap <buffer> <c-t> {%<space><space>%}<left><left><left>
+
+    " Django variables
+    au FileType jinja,htmldjango inoremap <buffer> <c-b> {{<space><space>}}<left><left><left>
+augroup END
+
+" }}}
+" Java {{{
+
+augroup ft_java
+    au!
+
+    au FileType java setlocal foldmethod=marker
+    au FileType java setlocal foldmarker={,}
+augroup END
+
+" }}}
+" Javascript {{{
+
+augroup ft_javascript
+    au!
+
+    au FileType javascript setlocal foldmethod=marker
+    au FileType javascript setlocal foldmarker={,}
+    au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
+
+    " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
+    " positioned inside of them AND the following code doesn't get unfolded.
+    au Filetype javascript inoremap <buffer> {<cr> {}<left><cr><space><space><space><space>.<cr><esc>kA<bs>
+augroup END
+
+" }}}
+" Lilypond {{{
+
+augroup ft_lilypond
+    au!
+
+    au FileType lilypond setlocal foldmethod=marker foldmarker={,}
+augroup END
+
+" }}}
+" Mail {{{
+
+augroup ft_mail
+    au!
+
+    au Filetype mail setlocal spell
+augroup END
+
+" }}}
+" Makefiles {{{
+au BufNewFile,BufRead Makefile,*.mk set encoding=latin-1 ts=8 noexpandtab
+" }}} 
+" Markdown {{{
+
+augroup ft_markdown
+    au!
+
+    au BufNewFile,BufRead *.md, *.m*down setlocal filetype=markdown foldlevel=1
+
+    " Use <localleader>1/2/3 to add headings.
+    au Filetype markdown nnoremap <buffer> <localleader>1 yypVr=:redraw<cr>
+    au Filetype markdown nnoremap <buffer> <localleader>2 yypVr-:redraw<cr>
+    au Filetype markdown nnoremap <buffer> <localleader>3 mzI###<space><esc>`zllll
+    au Filetype markdown nnoremap <buffer> <localleader>4 mzI####<space><esc>`zlllll
+
+    au Filetype markdown nnoremap <buffer> <localleader>p VV:'<,'>!python -m json.tool<cr>
+    au Filetype markdown vnoremap <buffer> <localleader>p :!python -m json.tool<cr>
+augroup END
+
+" }}}
+" Mercurial {{{
+
+augroup ft_mercurial
+    au!
+
+    au BufNewFile,BufRead *hg-editor-*.txt setlocal filetype=hgcommit
+augroup END
+
+" }}}
+" Mutt {{{
+
+augroup ft_muttrc
+    au!
+
+    au BufRead,BufNewFile *.muttrc set ft=muttrc
+
+    au FileType muttrc setlocal foldmethod=marker foldmarker={{{,}}}
+augroup END
+
+" }}}
+" Postgresql {{{
+
+augroup ft_postgres
+    au!
+
+    au BufNewFile,BufRead *.sql set filetype=pgsql
+    au FileType pgsql set foldmethod=indent
+    au FileType pgsql set softtabstop=2 shiftwidth=2
+    au FileType pgsql setlocal commentstring=--\ %s comments=:--
+augroup END
+
+" }}}
+" Python {{{
+
+augroup ft_python
+    au!
+
+    au FileType python setlocal define=^\s*\\(def\\\\|class\\)
+    au FileType man nnoremap <buffer> <cr> :q<cr>
+
+    " Jesus tapdancing Christ, built-in Python syntax, you couldn't let me
+    " override this in a normal way, could you?
+    au FileType python if exists("python_space_error_highlight") | unlet python_space_error_highlight | endif
+
+    au FileType python iabbrev <buffer> afo assert False, "Okay"
+augroup END
+
+" }}}
+" Subversion {{{
+au BufNewFile,BufRead .svn-commit.tmp* set tw=72 et wrap noai
+" }}}
+" Vim {{{
+
+augroup ft_vim
+    au!
+
+    au FileType vim setlocal foldmethod=marker
+    au FileType help setlocal textwidth=78
+    au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+augroup END
 
 " Source the vimrc file after saving it
 if has("autocmd")
 	autocmd! BufWritePost .vimrc source $MYVIMRC
 endif
 
-" Load vimrc in new tab when hitting ,v
-let mapleader = ","
-nmap <leader>v :tabedit $MYVIMRC<CR>
+" }}}
+" YAML {{{
 
-" For *.c and *.h files set formatting of comments and set
-" C-indenting on.
-au BufNewFile,BufRead *.c,*.h set formatoptions=croql cindent comments=sr:/*,mb:*,el:*/,:// ts=8 nu sw=2 ai et
-au BufNewFile,BufRead Makefile,*.mk set ts=8
+augroup ft_yaml
+    au!
 
-" cvs commit messages; wrapped at 72 and tabs get expanded
-au BufNewFile,BufRead /tmp/cvs[0-9A-Z]* set tw=72 et wrap noai
+    au FileType yaml set shiftwidth=2
+augroup END
+
+" }}}
+
+" }}}
+" Quick editing {{{
+
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>eg :vsplit ~/.git/config/<cr>
+nnoremap <leader>ep :vsplit ~/.profile<cr>
+nnoremap <leader>em :vsplit ~/.mutt/muttrc<cr>
+nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
+nnoremap <leader>es :vsplit ~/.slate<cr>
+
+au BufNewFile,BufReadPost .vimrc set tw=79 sm nu 
+" }}}
