@@ -16,19 +16,20 @@ PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbi
 HOSTNAME="`hostname -s`"
 LESSCHARSET=latin1
 TZ=CET
-export HOME MAIL LESSCHARSET PATH TZ 
+export PATH HOSTNAME LESSCHARSET TZ 
 
 CVSUMASK=007
 export CVSUMASK
 
-unset MAILCHECK
-unset HISTFILE
+unset MAIL MAILCHECK
 
 # ksh options; might fail on non-PD KSH shells.
 if [ "/bin/ksh" = "$SHELL" ]; then
 	set -o vi
 	set -o vi-tabcomplete
 	set -o trackall
+	export HISTFILE=~/.ksh_history
+	export HISTSIZE=100000
 else
 	echo note: This is not the public domain ksh.
 fi
@@ -77,6 +78,18 @@ if [ -z "$SSH_AUTH_SOCK" ] && [ -z "$SSH_CLIENT" ]; then
 	sshsock
 fi
 
+xsock() {
+        # Use tmux environment cleverness to easily update 
+        # DISPLAY in long-running shells.
+        NEWDISPLAY=$(tmux show-environment DISPLAY)
+        if [ ! -z $NEWDISPLAY ]; then
+                export $NEWDISPLAY
+        else 
+                echo 'tmux has no new DISPLAY. Is X forwarded?'
+                exit 1
+        fi
+}
+
 # Offer a decent way of generating passwords across all systems.
 # -n 1 (one password)
 # -m 40 (string length 20)
@@ -86,35 +99,6 @@ if [ -x /usr/local/bin/apg ]; then
 else
 	alias newpassword='openssl rand -base64 40'
 fi
-
-# copy files to temp location 
-publish () {
-	PUBLISHFILES=$*
-
-	PUBLISHURL=http://a.mongers.org/x/
-	PUBLISHHOSTNAME=katie.klen.dk
-	PUBLISHPATH=/var/apache/holsta/a.mongers.org/x/
-
-	if [ -z "$SSH_AUTH_SOCK" ] && [ -z "$SSH_CLIENT" ]; then
-		sshsock
-	fi
-
-	for f in $PUBLISHFILES; do
-		if [ ! -f $f ]; then
-			echo "publish: $f not found."
-			exit	
-		fi
-	done
-
-	scp $PUBLISHFILES \
-		$PUBLISHHOSTNAME:$PUBLISHPATH
-
-	for i in $PUBLISHFILES; do
-		k=$(basename $i)
-		ssh $PUBLISHHOSTNAME 'chmod o+r $PUBLISHPATH$k'
-		echo $PUBLISHURL$k
-	done
-}
 
 # http://henrik.nyh.se/2008/12/git-dirty-prompt
 # http://www.simplisticcomplexity.com/2008/03/13/show-your-git-branch-name-in-your-prompt/
@@ -140,16 +124,45 @@ fi
 
 openbsdspecific() {
 	# Various openbsd-specific aliases 
-	alias pkgup="sudo pkg_add -uiF update -F updatedepends"
-	alias pkg_add="sudo pkg_add -i"
-	alias osupgrade="cd ~/bin; sh osupgrade.sh"
+	alias ro="sudo mount -ur"
+	alias rw="sudo mount -uw"
+	alias osupgrade="sh ~/bin/osupgrade.sh"
 	alias ports='test -f /usr/local/share/sqlports && sqlite3 /usr/local/share/sqlports'
+	alias rc='sudo /etc/rc.d/'
 
 	# Find a proper JRE
 	if [ -x /usr/local/jre-1.7.0/ ]; then
 		JAVA_HOME=/usr/local/jre-1.7.0/
 		export JAVA_HOME
 	fi
+}
+
+pkg_add() {
+	_packages=$*
+
+	sudo mount -uw /usr/local
+	sudo pkg_add -i $_packages
+	sudo mount -ur /usr/local
+}
+
+pkg_delete() {
+	_packages=$*
+
+	sudo mount -uw /usr/local
+	sudo pkg_delete $_packages
+	echo 'Running pkg_delete -a .. '
+	sudo pkg_delete -a
+	sudo mount -ur /usr/local
+}
+
+pkgup() {
+	_packages=$*
+
+	sudo mount -uw /usr/local
+	sudo pkg_add -uiF update -F updatedepends $_packages
+	echo 'Running pkg_delete -a .. '
+	sudo pkg_delete -a
+	sudo mount -ur /usr/local
 }
 
 worldsync() {
@@ -176,6 +189,7 @@ worldsync() {
 
 alias ls="ls -F"
 alias work="cd ~/work"		# shorthand for work dir
+alias f=/usr/local/bin/fossil
 
 # make it easier to update mayas website
 alias maya.mongers.org="ssh -t katie.klen.dk 'cd /var/apache/holsta/maya.mongers.org/htdocs/2009; svn up'"
