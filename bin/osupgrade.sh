@@ -2,9 +2,13 @@
 #
 # Automates snapshot upgrades a little bit
 
-EXTRACT_TARBALLS="comp* man* game* xbase* xserv* xshare* xfont* base*"
+V="55"
+CHKSUMS="SHA256.sig SHA256"
+KERNELS="bsd bsd.mp bsd.rd"
+EXTRACT_TARBALLS="comp${V}.tgz man${V}.tgz game${V}.tgz xbase${V}.tgz xserv${V}.tgz xshare${V}.tgz xfont${V}.tgz base${V}.tgz"
+TARBALLS="${EXTRACT_TARBALLS} etc${V}.tgz xetc${V}.tgz"
 #UPGRADE_PATH=/famholst/openbsd/snapshots/$(uname -m)/
-UPGRADE_PATH=/tmp/openbsd
+UPGRADE_PATH=~/.openbsd
 
 # Just assume /etc/pkg.conf is authorative with regard to
 # path, machine type and version/snapshot.
@@ -16,35 +20,30 @@ cd $UPGRADE_PATH
 
 # Check for local copies of OpenBSD, otherwise get
 # a copy
-if [ ! -f bsd* ]; then
-	ftp -a ${OS_PATH}"bsd*"
-fi
-
-# Don't bother upgrading if the mirror holds a kernel
-# identical to the installed kernel.
-if [ ! "$(diff -q /bsd.mp $UPGRADE_PATH/bsd.mp)" -a ! "$(diff -q /bsd.sp $UPGRADE_PATH/bsd)" ]; then
-	echo Mirrored kernel unchanged.
-	#exit 1
-fi
-
-# Remote kernel changed, get the rest.
-if [ ! -f *.tgz ]; then
-	ftp -a $OS_PATH*.tgz
-fi
+for i in $CHKSUMS $KERNELS $TARBALLS; do
+#    if [ ! -f $i ]; then
+        ftp -a ${OS_PATH}/$i
+#    fi
+done
 
 sudo mount -uw /usr/local
 sudo mount -uw /usr/X11R6
 
 # copy kernel into place
 echo New kernels ...
-sudo cp bsd bsd.mp bsd.rd /
 sudo cp bsd /bsd.sp
+sudo cp bsd.mp bsd.rd /
 if [ $(sysctl -n hw.ncpufound) -gt 1 ]; then
 	echo Using bsd.mp
-	sudo cp /bsd.mp /bsd 
+    sudo rm /obsd
+    sudo ln /bsd /obsd && sudo cp /bsd.mp /nbsd && sudo mv /nbsd /bsd
+else
+	echo Using bsd
+    sudo rm /obsd
+    sudo ln /bsd /obsd && sudo cp /bsd.sp /nbsd && sudo mv /nbsd /bsd
 fi
 
-sudo cp /sbin/reboot /root/reboot.$(uname -r)
+sudo cp /sbin/reboot /sbin/oreboot
 echo Saved reboot binary. You should sudo -s now.
 
 # extract relevant tarballs to root of drive, preserving permissions
@@ -55,8 +54,15 @@ do
 	echo "done."
 done
 
+# "Files to delete" from upgradeXY.html
+if [ -f ~/bin/$(uname -r)rm.sh ]; then
+        echo Scheduling file deletions 
+        cat ~/bin/$(uname -r)rm.sh | sudo tee /etc/rc.firstrun
+fi
+
 # sysmerge
 sudo sysmerge -b -s etc* -x xetc*
+# XXX: Should  MAKEDEV all  be run by rc.firstrun?
 cd /dev; sudo sh ./MAKEDEV all
 
 # Install new bootblocks, like Han's upgrade script does
