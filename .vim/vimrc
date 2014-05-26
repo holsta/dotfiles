@@ -129,7 +129,7 @@ set title " Xterm titles
 " }}}
 " Text annotation options {{{
 set list
-set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
+"set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 set synmaxcol=250 " Do not syntax highlight long lines
 " }}}
 " Folding {{{
@@ -160,6 +160,8 @@ augroup ft_css
 
     au BufNewFile,BufRead *.less setlocal filetype=less
 
+" mail and news, textwidth 72, don't autoindent
+    au BufNewFile,BufReadPost mutt*,.article*,.followup,*.txt set tw=72 sm noai
     au Filetype less,css setlocal foldmethod=marker
     au Filetype less,css setlocal foldmarker={,}
     au Filetype less,css setlocal omnifunc=csscomplete#CompleteCSS
@@ -349,10 +351,22 @@ augroup ft_vim
     au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
 augroup END
 
+" For *.c and *.h files set formatting of comments and set
+" C-indenting on.
+au BufNewFile,BufRead *.c,*.h set formatoptions=croql cindent comments=sr:/*,mb:*,el:*/,:// ts=8 nu sw=2 
+au BufNewFile,BufRead Makefile,*.mk set ts=8 noexpandtab
+
+" yaml needs spaces
+au BufnewFile,BufRead *.yaml,*.yml set ts=2 sw=2 st=2 expandtab
+
+" cvs commit messages; wrapped at 72 and tabs get expanded
+au BufNewFile,BufRead /tmp/cvs[0-9A-Z]* set tw=72 et wrap noai
+
 " Source the vimrc file after saving it
 if has("autocmd")
 	autocmd! BufWritePost .vimrc source $MYVIMRC
 endif
+
 
 " }}}
 " YAML {{{

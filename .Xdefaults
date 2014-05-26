@@ -5,7 +5,8 @@ XTerm*fontSize: 14
 XTerm*transpscrollbar: true
 XTerm*scrollbar*thickness: 4
 XTerm*scrollBar: off
-XTerm*termName: pcvt25
+#XTerm*termName: pcvt25
+XTerm*faceName: VeraMono
 XTerm*visualBell: true
 XTerm*loginShell: true
 XTerm*pointerMode: 1

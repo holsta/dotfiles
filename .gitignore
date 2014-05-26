@@ -1,4 +1,3 @@
-.*
 *.core
 *.mp3
 *.mp4
@@ -7,8 +6,7 @@
 .Xauthority
 .appcfg_cookies
 .appcfg_nag
-.aspell.en.prepl
-.aspell.en.pws
+.aspell.*
 .audacity-data/
 .avidemux
 .btpd/
@@ -23,8 +21,7 @@
 .gconfd/
 .gegl-0.0/
 .gem
-.gimp-2.4/
-.gimp-2.6/
+.gimp*
 .gnashpluginrc
 .gnome/
 .gnuplot_history
@@ -32,7 +29,6 @@
 .gtk-recordmydesktop
 .gtkpod/
 .inkscape/
-.irssi
 .kde/
 .libdvd/
 .links/
@@ -42,8 +38,6 @@
 .mcoprc
 .mozilla/
 .mplayer/
-.mutt.personal
-.mutt/
 .mysql_history
 .ncftp
 .netrc
@@ -62,7 +56,6 @@
 .thunderbird/
 .trac/
 .viminfo
-.vlc/
 .xsession-errors
 Desktop/
 Downloads/
@@ -72,11 +65,9 @@ work/
 *.mp3
 *.mp4
 *.core
-linkchecker-out.html
 .gem
 .irssi
 .lyrics
-.mutt.personal
 .netrc
 .service_proxy_dir
 .dvdcss
@@ -101,6 +92,13 @@ Sites
 .MacOSX
 .adobe
 .bash_history
-roundup
 Notes
-video
+audio
+video.DS_Store
+.Maildir/
+._.DS_Store
+.DS_Store
+.aucat_cookie
+.cache/
+.cvsync/
+.*

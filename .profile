@@ -41,9 +41,9 @@ fi
 
 # Account for terminal handling inside tmux. tmux likes to
 # use screen as TERM, and it must not be reset 
-if [ ! "screen" = "$TERM" ]; then
-	export TERM=xterm-color
-fi
+#if [ ! "screen" = "$TERM" ]; then
+#	export TERM=xterm-color
+#fi
 
 # If vim is available, use it. Otherwise assume vi is.
 if [ -x "`which vim`" ]; then 
@@ -83,7 +83,7 @@ xsock() {
         # DISPLAY in long-running shells.
         NEWDISPLAY=$(tmux show-environment DISPLAY)
         if [ ! -z $NEWDISPLAY ]; then
-                export $NEWDISPLAY
+                export DISPLAY=$NEWDISPLAY
         else 
                 echo 'tmux has no new DISPLAY. Is X forwarded?'
                 exit 1
@@ -129,6 +129,8 @@ openbsdspecific() {
 	alias osupgrade="sh ~/bin/osupgrade.sh"
 	alias ports='test -f /usr/local/share/sqlports && sqlite3 /usr/local/share/sqlports'
 	alias rc='sudo /etc/rc.d/'
+    alias buildmaster="sudo -u _buildbot buildbot restart /var/buildbot"
+    alias buildslave="sudo -u _buildslave buildslave restart /var/buildslave"
 
 	# Find a proper JRE
 	if [ -x /usr/local/jre-1.7.0/ ]; then
@@ -159,7 +161,7 @@ pkgup() {
 	_packages=$*
 
 	sudo mount -uw /usr/local
-	sudo pkg_add -uiF update -F updatedepends $_packages
+	sudo pkg_add -u $_packages
 	echo 'Running pkg_delete -a .. '
 	sudo pkg_delete -a
 	sudo mount -ur /usr/local

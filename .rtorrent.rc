@@ -23,6 +23,8 @@ port_range = 50000-50000
 # DHT support
 dht=on
 
+#avoid corrupt downloads
+
 # We have a fast network and a fast computer. Set limits accordingly.
 #download_rate = 800
 #upload_rate = 55

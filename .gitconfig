@@ -20,3 +20,5 @@
 	tool = vimdiff
 [merge]
 	tool = vimdiff
+[push]
+	default = simple
