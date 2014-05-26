@@ -1,0 +1,44 @@
+#!/bin/sh
+
+if [ -z ${SSH_AUTH_SOCK} ]; then
+    echo "Error: No SSH_AUTH_SOCK"
+    exit 1
+fi
+
+REMOTE_BACKUP_DIR=$(hostname)/
+RSYNC_EXCLUDES="--exclude .ansible/ \
+    --exclude .Maildir/ \
+    --exclude .cache/ \
+    --exclude .dbus/ \
+    --exclude .offlineimap \
+    --exclude .openbsd \
+    --exclude .private/ \
+    --exclude .snapshots/ \
+    --exclude .ssh/ \
+    --exclude .vim/swp/ \
+    --exclude .vim/undo/ \
+    --exclude video/ \
+    --exclude cache/ \
+    --exclude downloads/ \
+    --exclude Downloads/"
+
+if [ `basename $0` = "remoteBackup" ]; then
+    BACKUP_LOCATION=rsync.net:${REMOTE_BACKUP_DIR}
+elif [ `basename $0` = "localBackup" ]; then
+    SNAPSHOTDIR=~/.snapshots/${REMOTE_BACKUP_DIR}
+    mkdir -p ${SNAPSHOTDIR}
+
+    BACKUP_LOCATION="${SNAPSHOTDIR}/$(date +%F_%T)"
+
+    # Check for previous backups
+    PREV_BACKUP=`ls -r ${SNAPSHOTDIR} | head -1`
+    if [ -d ${PREV_BACKUP} ]; then
+        BACKUP_OPTIONS="--backup --backup-dir=${PREV_BACKUP}"
+    fi
+fi
+
+rsync -avL\
+    ${RSYNC_EXCLUDES} \
+    ${BACKUP_OPTIONS} \
+    ~ \
+    ${BACKUP_LOCATION}
