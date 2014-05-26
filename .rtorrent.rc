@@ -1,8 +1,8 @@
 # Resume between sessions/reboots
-session = ~/.torrents
+session = ~/video/torrents
 
 # Save all files here
-directory = ~/.torrents 
+directory = ~/video
 
 # IP address reported to tracker, if we're behind NAT
 ip = 78.156.97.125 
@@ -10,6 +10,7 @@ ip = 78.156.97.125
 # Watch a directory for new torrents, restart torrents that have been
 # copied back and stop those that have been deleted.
 schedule = watch_directory,5,5,load_start=~/.torrents/*.torrent
+# */ fake comment end
 schedule = tied_directory,5,5,start_tied=
 schedule = untied_directory,5,5,close_untied=
 
@@ -21,6 +22,8 @@ port_range = 50000-50000
 
 # DHT support
 dht=on
+
+#avoid corrupt downloads
 
 # We have a fast network and a fast computer. Set limits accordingly.
 #download_rate = 800

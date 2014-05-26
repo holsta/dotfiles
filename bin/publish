@@ -1,0 +1,28 @@
+# copy files to temp location 
+publish () {
+	PUBLISHFILES=$*
+
+	PUBLISHURL=http://a.mongers.org/x/
+	PUBLISHHOSTNAME=katie.klen.dk
+	PUBLISHPATH=/var/apache/holsta/a.mongers.org/x/
+
+	if [ -z "$SSH_AUTH_SOCK" ] && [ -z "$SSH_CLIENT" ]; then
+		sshsock
+	fi
+
+	for f in $PUBLISHFILES; do
+		if [ ! -f $f ]; then
+			echo "publish: $f not found."
+			exit	
+		fi
+	done
+
+	scp $PUBLISHFILES \
+		$PUBLISHHOSTNAME:$PUBLISHPATH
+
+	for i in $PUBLISHFILES; do
+		k=$(basename $i)
+		ssh $PUBLISHHOSTNAME 'chmod o+r $PUBLISHPATH$k'
+		echo $PUBLISHURL$k
+	done
+}

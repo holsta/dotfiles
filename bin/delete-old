@@ -1,0 +1,85 @@
+#!/bin/sh
+
+ARCH=$(uname -m)
+BASE=-rOPENBSD_5_3_BASE
+
+list=$(
+        cd /usr/src/distrib/sets/lists &&
+            cvs -Rq diff -u ${BASE} */mi */md.${ARCH} |
+            sed -n 's:^-\./:/:p'
+)
+
+files=
+libs=
+dirs=
+while read file; do
+        if [ -f "$file" -o -h "$file" ]; then
+                case $file in
+                *.so.[0-9].[0-9] | \
+                *.so.[0-9].[0-9][0-9] | \
+                *.so.[0-9][0-9].[0-9] | \
+                *.so.[0-9][0-9].[0-9][0-9] )
+                        if [ -z "$libs" ]; then libs=$file
+                        else libs="$libs
+$file"
+                        fi
+                        ;;
+                *)
+                        if [ -z "$files" ]; then files=$file
+                        else files="$files
+$file"
+                        fi
+                        ;;
+                esac
+        elif [ -d "$file" ]; then
+                if [ -z "$dirs" ]; then dirs=$file
+                else dirs="$dirs
+$file"
+                fi
+        fi
+done <<EOF
+$list
+EOF
+
+delete-old-files()
+{
+        echo ">>> Removing old files"
+        if [ -n "$files" ]; then
+                exec 3>&0
+                while read file; do
+                        rm -i "$file" <&3
+                done <<-EOF
+                $files
+                EOF
+        fi
+}
+
+delete-old-libs()
+{
+        echo ">>> Removing old libraries"
+        if [ -n "$libs" ]; then
+                exec 3>&0
+                while read file; do
+                        rm -i "$file" <&3
+                done <<-EOF
+                $libs
+                EOF
+        fi
+}
+
+delete-old-dirs()
+{
+        echo ">>> Removing old directories"
+        if [ -n "$dirs" ]; then
+                while read file; do
+                        rmdir "$file" && echo "$file"
+                done <<-EOF
+                $dirs
+                EOF
+        fi
+}
+
+delete-old-files
+delete-old-libs
+delete-old-dirs
+
