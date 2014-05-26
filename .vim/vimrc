@@ -129,7 +129,7 @@ set title " Xterm titles
 " }}}
 " Text annotation options {{{
 set list
-set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
+"set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 set synmaxcol=250 " Do not syntax highlight long lines
 " }}}
 " Folding {{{
@@ -157,19 +157,15 @@ au BufNewFile,BufRead /tmp/cvs[0-9A-Z]* set tw=72 et wrap noai
 
 augroup ft_css
     au!
->>>>>>> 1ba40e31b22ffd99c60107913991fda30dc5ea55:.vimrc
 
     au BufNewFile,BufRead *.less setlocal filetype=less
 
-<<<<<<< HEAD:.vim/vimrc
 " mail and news, textwidth 72, don't autoindent
-au BufNewFile,BufReadPost mutt*,.article*,.followup,*.txt set tw=72 sm noai
-=======
+    au BufNewFile,BufReadPost mutt*,.article*,.followup,*.txt set tw=72 sm noai
     au Filetype less,css setlocal foldmethod=marker
     au Filetype less,css setlocal foldmarker={,}
     au Filetype less,css setlocal omnifunc=csscomplete#CompleteCSS
     au Filetype less,css setlocal iskeyword+=-
->>>>>>> 1ba40e31b22ffd99c60107913991fda30dc5ea55:.vimrc
 
     " Use <leader>S to sort properties.  Turns this:
     "
@@ -371,12 +367,7 @@ if has("autocmd")
 	autocmd! BufWritePost .vimrc source $MYVIMRC
 endif
 
-<<<<<<< HEAD:.vim/vimrc
-" Load vimrc in new tab when hitting ,v
-nmap <leader>v :tabedit $MYVIMRC<CR>
 
-
-=======
 " }}}
 " YAML {{{
 
