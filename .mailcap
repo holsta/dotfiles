@@ -1,2 +1,3 @@
 application/pdf;                xpdf %s;
-
+text/html;                      html2text %s;
+text/HTML;                      html2text %s;
