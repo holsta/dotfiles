@@ -126,7 +126,7 @@ openbsdspecific() {
 	# Various openbsd-specific aliases 
 	alias ro="sudo mount -ur"
 	alias rw="sudo mount -uw"
-	alias osupgrade="sh ~/bin/osupgrade.sh"
+	alias osupgrade="sudo sh ~/bin/osupgrade.sh"
 	alias ports='test -f /usr/local/share/sqlports && sqlite3 /usr/local/share/sqlports'
 	alias rc='sudo /etc/rc.d/'
     alias buildmaster="sudo -u _buildbot buildbot restart /var/buildbot"
