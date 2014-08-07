@@ -2,31 +2,11 @@
 ## Configuration file for ncmpc (~/.ncmpc/config)
 ## 
 
-## screen list - used when navigating with next-screen (tab) and 
-## previous-screen (shift+tab) 
-## names: playlist browse help artist clock
-#screen-list = playlist artist
-
-## auto center (center the playing track in the playlist)
-#auto-center = no
-
-## wide_cursor - make the cursor as wide as the screen
-#wide-cursor = yes
-
 ## wrapped cursor movement
-#wrap-around = no
-
-## wrapped find mode
-#find-wrap = yes
+wrap-around = yes
 
 ## show last pattern when using find
-#find-show-last = no
-
-## list-format
-#list-format = "%name%|[%artist% - ]%title%|%file%"
-
-## status-format
-#status-format = "[%artist% - ]%title%|%shortfile%"
+find-show-last = yes 
 
 ## sound audible bell on alerts
 audible-bell = no
@@ -34,23 +14,8 @@ audible-bell = no
 ## enable visible bell on alerts
 visible-bell = yes
 
-## hide playlist cursor after x seconds (0 disables this feature)
-#hide-cursor = 5
-
 ## change the xterm title 
-#set-xterm-title = no
-
-## xterm title format
-#xterm-title-format = "ncmpc: [ %name%|[%artist% - ]%title%|%file%]"
-
-## enable mouse events 
-#enable-mouse = no
-
-## seek time (default 1s)
-#seek-time = 3
-
-## mpd crossfade time 
-##crossfade-time = 10
+set-xterm-title = yes
 
 ##
 ## Color configuration
@@ -59,27 +24,21 @@ visible-bell = yes
 ##
 
 ## enable/disable colors
-enable-colors = yes
+enable-colors = no 
 
 ## background colors: black,red,green,yellow,blue,magenta,cyan,white, none 
-#color background = black
+color background = none 
 
 ## text colors: black, red, green, yellow, blue, magenta, cyan, white,
 ##              brightblack, brightred, brightgreen, brightyellow, brightblue,
 ##              brightmagenta, brightcyan, brightwhite
-
-
-#color title = yellow
-#color title-bold = brightyellow
-#color line = white
-#color line-flags = brightwhite
-#color list = green
-#color list-bold = brightgreen
-#color progressbar = white
-#color status-state = brightyellow
-#color status-song  = yellow
-#color status-time  = red
-#color alert = brightred
-
-
-
+color title = blue
+color title-bold = blue
+color line = green 
+color list = black
+color list-bold = green
+color progressbar = cyan
+color status-state = red
+color status-song  = black
+color status-time  = red
+color alert = brightred

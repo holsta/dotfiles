@@ -1,0 +1,46 @@
+[general]
+accounts = GoogleApps
+ui = basic 
+ 
+[Account GoogleApps]
+localrepository = Local
+remoterepository = Gmail
+autorefresh = 5
+quick = 10
+ 
+[Repository Local]
+type = Maildir
+localfolders = ~/.Maildir
+nametrans = lambda folder: {'drafts':  '[Gmail]/Drafts',
+                            'sent':    '[Gmail]/Sent Mail',
+                            'flagged': '[Gmail]/Starred',
+                            'trash':   '[Gmail]/Trash',
+                            }.get(folder, folder)
+sep = /
+restoreatime = no
+ 
+[Repository Gmail]
+type = Gmail 
+ssl = yes
+remotehost = imap.gmail.com.
+#cert_fingerprint = 6d1b5b5ee0180ab493b71d3b94534b5ab937d042
+#cert_fingerprint = b0ba392bba326e6feb1add4d04fa0fb86cd173fa
+#cert_fingerprint = 89091347184d41768bfc0da9fad94bfe882dd358
+cert_fingerprint = bc9fb09aeb065316c9561d0d91c68ae822261601
+remoteuser = a@mongers.org
+remotepassfile = ~/.private/imap
+maxconnections = 1
+realdelete = no
+nametrans = lambda folder: {'[Gmail]/Drafts':    'drafts',
+                            '[Gmail]/Sent Mail': 'sent',
+                            '[Gmail]/Starred':   'flagged',
+                            '[Gmail]/Trash':     'trash',
+                            }.get(folder, folder)
+folderfilter = lambda foldername: foldername not in ['[Gmail]/All Mail', 
+                        '[Gmail]/Trash',
+                        '[Gmail]/Spam',
+                        '[Gmail]/Starred',
+                        '[Gmail]/Important']
+trashfolder = [Gmail]/Trash
+spamfolder = [Gmail]/Spam
+# vim: ft=cfg tw=0

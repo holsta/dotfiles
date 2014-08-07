@@ -1,1 +1,25 @@
-.Xresources
+XTerm*background: white
+XTerm*foreground: black
+XTerm*ColorMode*boldColors: false
+XTerm*fontSize: 14
+XTerm*transpscrollbar: true
+XTerm*scrollbar*thickness: 4
+XTerm*scrollBar: off
+#XTerm*termName: pcvt25
+XTerm*faceName: VeraMono
+XTerm*visualBell: true
+XTerm*loginShell: true
+XTerm*pointerMode: 1
+#XTerm*locale: UTF-8
+# xterm copy&paste trick from http://www.davidsimmons.com/soft/xtermhacks/
+#XTerm*VT100.translations: #override : select-end(PRIMARY, CLIPBOARD, CUT_BUFFER0)
+
+XLock*erasedelay: 0
+XLock*mode: bouboule
+
+XClock*analog: false
+XClock*update: 1
+#XClock*background: black
+#XClock*foreground: green
+XClock*geometry: -0-768
+XClock*padding: 0

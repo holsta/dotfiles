@@ -2,43 +2,81 @@
 #
 # Automates snapshot upgrades a little bit
 
-test -n "$OS_PATH" || (echo "OS_PATH not set; exiting"; exit 1)
+V="55"
+CHKSUMS="SHA256.sig SHA256"
+KERNELS="bsd bsd.mp bsd.rd"
+EXTRACT_TARBALLS="comp${V}.tgz man${V}.tgz game${V}.tgz xbase${V}.tgz xserv${V}.tgz xshare${V}.tgz xfont${V}.tgz base${V}.tgz"
+TARBALLS="${EXTRACT_TARBALLS} etc${V}.tgz xetc${V}.tgz"
+#UPGRADE_PATH=/famholst/openbsd/snapshots/$(uname -m)/
+UPGRADE_PATH=~/.openbsd
 
-DOWNLOAD="base* bsd* comp* etc* misc* man* game* x* pxeboot"
-EXTRACT_TARBALLS="base* comp* misc* man* game* xbase* xserv* xshare* xfont*"
-test -z $tempdl && tempdl=`mktemp -d`
-etctemp=`mktemp -d`
+# Just assume /etc/pkg.conf is authorative with regard to
+# path, machine type and version/snapshot.
+OS_PATH=$(grep ^installpath /etc/pkg.conf | sed 's/packages\///g' | awk '{ print $3 }')
 
-mkdir -p $tempdl
-cd $tempdl 
-echo Downloading to $tempdl
+mkdir -p $UPGRADE_PATH
+echo cd $UPGRADE_PATH 
+cd $UPGRADE_PATH 
 
-for file in $DOWNLOAD; do
-	echo "Getting $file"
-	ftp -4Va $OS_PATH/$file || (echo 'ftp failed; exiting'; rm -rf $tempdl; exit 1)
+# Check for local copies of OpenBSD, otherwise get
+# a copy
+for i in $CHKSUMS $KERNELS $TARBALLS; do
+#    if [ ! -f $i ]; then
+        ftp -a ${OS_PATH}/$i
+#    fi
 done
 
+sudo mount -uw /usr/local
+sudo mount -uw /usr/X11R6
+
 # copy kernel into place
-sudo cp bsd /bsd
+echo New kernels ...
+sudo cp bsd /bsd.sp
+sudo cp bsd.mp bsd.rd /
+if [ $(sysctl -n hw.ncpufound) -gt 1 ]; then
+	echo Using bsd.mp
+    sudo rm /obsd
+    sudo ln /bsd /obsd && sudo cp /bsd.mp /nbsd && sudo mv /nbsd /bsd
+else
+	echo Using bsd
+    sudo rm /obsd
+    sudo ln /bsd /obsd && sudo cp /bsd.sp /nbsd && sudo mv /nbsd /bsd
+fi
+
+sudo cp /sbin/reboot /sbin/oreboot
+echo Saved reboot binary. You should sudo -s now.
 
 # extract relevant tarballs to root of drive, preserving permissions
 for i in $EXTRACT_TARBALLS;
-	do 
+do
 	echo -n "Untarring $i ... "
-	sudo tar xzpf $i -C /;
+	sudo tar xzpf $i -C /
 	echo "done."
 done
 
-# extract etcXY.tgz and blindly copy certain files into place
-echo "Replacing unchanged files..."
-if [ -f /etc/unchangedfiles ]; then
-	#sudo tar xzpf etc*.tgz -C $etctemp
-	cd $etctemp
-
-	while read unchanged; do
-		echo cp $unchanged /
-	done < /etc/unchangedfiles
+# "Files to delete" from upgradeXY.html
+if [ -f ~/bin/$(uname -r)rm.sh ]; then
+        echo Scheduling file deletions 
+        cat ~/bin/$(uname -r)rm.sh | sudo tee /etc/rc.firstrun
 fi
 
-cd ~
-rm -rf $tempdl $etctemp
+# sysmerge
+sudo sysmerge -b -s etc* -x xetc*
+# XXX: Should  MAKEDEV all  be run by rc.firstrun?
+cd /dev; sudo sh ./MAKEDEV all
+
+# Install new bootblocks, like Han's upgrade script does
+echo New bootblocks..
+sudo cp /usr/mdec/boot /
+cd /usr/mdec
+rootdev=$(/bin/df /|sed  -ne 's|/dev/\(.*\)a.*|\1|p')
+sudo ./installboot /boot ./biosboot $rootdev
+
+# Package upgrade and remove obsolete dependencies
+cd /tmp
+sudo pkg_add -u
+sudo pkg_delete -a
+
+# Read-only partitions
+sudo mount -ur /usr/local
+sudo mount -ur /usr/X11R6

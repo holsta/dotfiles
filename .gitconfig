@@ -5,10 +5,23 @@
 	co = checkout
 	ci = commit 
 	st = status
+	unstage = reset HEAD --
+	last = log -1 HEAD
+	recent = log -5 HEAD
 [color]
 	diff = auto
 	status = auto
 	branch = auto
+[github]
+	user = holsta
+[difftool]
+	prompt = false
+[diff]
+	tool = vimdiff
+[merge]
+	tool = vimdiff
+[push]
+	default = simple
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f

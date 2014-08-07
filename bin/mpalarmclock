@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# MPD-based alarmclock
+
+PLAYLIST="FLAC"
+# Wake us calmly. No surprises; set volume to zero, enable replaygain 
+# for tracks
+mpc volume 0
+mpc replaygain track
+mpc clear
+mpc load "$PLAYLIST"
+
+# start playing and gradually increase
+mpc play
+for i in $(jot 100 ); do
+        mpc volume $i
+        sleep 2
+done
+

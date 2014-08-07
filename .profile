@@ -7,39 +7,29 @@
 # * The linux web host
 
 # Needed for svn/iconv
-export LC_CTYPE=da_DK.ISO8859-1
+LC_CTYPE=da_DK.ISO8859-1
+#LC_CTYPE=da_DK.UTF-8
 
-# Find a proper JRE
-if [ -x /usr/local/jre-1.7.0/ ]; then
-	JAVA_HOME=/usr/local/jre-1.7.0/
-	export JAVA_HOME
-fi
+export LC_CTYPE
 
-if [ -x /usr/local/jre-1.7.0/ ]; then
-	JAVA_HOME=/usr/local/jre-1.7.0/
-	export JAVA_HOME
-fi
-
-PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:$JAVA_HOME/bin:/usr/local/git/bin/"
+PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:$HOME/bin:/usr/local/git/bin/"
 HOSTNAME="`hostname -s`"
-TERM=xterm-color
 LESSCHARSET=latin1
 TZ=CET
-export TERM HOME MAIL LESSCHARSET PATH TZ 
+export PATH HOSTNAME LESSCHARSET TZ 
 
-RSYNC_RSH=ssh
 CVSUMASK=007
-CVS_RSH=ssh
-export RSYNC_RSH CVSUMASK CVS_RSH
+export CVSUMASK
 
-unset MAILCHECK
-unset HISTFILE
+unset MAIL MAILCHECK
 
 # ksh options; might fail on non-PD KSH shells.
 if [ "/bin/ksh" = "$SHELL" ]; then
 	set -o vi
 	set -o vi-tabcomplete
 	set -o trackall
+	export HISTFILE=~/.ksh_history
+	export HISTSIZE=100000
 else
 	echo note: This is not the public domain ksh.
 fi
@@ -49,6 +39,11 @@ if [ "/bin/bash" = "$SHELL" ]; then
 	set -o vi
 fi
 
+# Account for terminal handling inside tmux. tmux likes to
+# use screen as TERM, and it must not be reset 
+#if [ ! "screen" = "$TERM" ]; then
+#	export TERM=xterm-color
+#fi
 
 # If vim is available, use it. Otherwise assume vi is.
 if [ -x "`which vim`" ]; then 
@@ -62,7 +57,7 @@ export EDITOR
 sshsock() {
 	# Find SSH authentication sockets that belong to us,
 	# and use the latest one.
-	export SSH_AUTH_SOCK=`find /tmp/ -user $USER  \
+	export SSH_AUTH_SOCK=`find /tmp/ssh-* -user $USER  \
 	-name 'agent*' 2>/dev/null | xargs ls -t | head -1`
 	# Did we find a ssh-agent socket?
 	if [ -S "$SSH_AUTH_SOCK" ]; then
@@ -83,37 +78,27 @@ if [ -z "$SSH_AUTH_SOCK" ] && [ -z "$SSH_CLIENT" ]; then
 	sshsock
 fi
 
-# copy files to temp location 
-publish () {
-	PUBLISHFILES=$*
-
-	PUBLISHURL=http://a.mongers.org/x/
-	PUBLISHHOSTNAME=katie.klen.dk
-	PUBLISHPATH=/var/apache/holsta/dominion/x/
-
-	for f in $PUBLISHFILES; do
-		if [ ! -f $f ]; then
-			echo "publish: $f not found."
-			exit	
-		fi
-	done
-
-	scp $PUBLISHFILES \
-		$PUBLISHHOSTNAME:$PUBLISHPATH
-
-	for i in $PUBLISHFILES; do
-		k=$(basename $i)
-		ssh $PUBLISHHOSTNAME chmod o+r $PUBLISHPATH$k
-		echo $PUBLISHURL$k
-	done
+xsock() {
+        # Use tmux environment cleverness to easily update 
+        # DISPLAY in long-running shells.
+        NEWDISPLAY=$(tmux show-environment DISPLAY)
+        if [ ! -z $NEWDISPLAY ]; then
+                export DISPLAY=$NEWDISPLAY
+        else 
+                echo 'tmux has no new DISPLAY. Is X forwarded?'
+                exit 1
+        fi
 }
 
-function show_ports {
-	echo 'Network ports:'
-	fstat -u holsta | grep internet | grep -v ssh | grep -v firefox | awk {'print "    " $2 "  " $9'}
-	echo
-}
-
+# Offer a decent way of generating passwords across all systems.
+# -n 1 (one password)
+# -m 40 (string length 20)
+# -M SNCL (must contain special chars, numbers, upper case, lower case)
+if [ -x /usr/local/bin/apg ]; then
+	alias newpassword='apg -n 1 -m 40 -M SNCL'
+else
+	alias newpassword='openssl rand -base64 40'
+fi
 
 # http://henrik.nyh.se/2008/12/git-dirty-prompt
 # http://www.simplisticcomplexity.com/2008/03/13/show-your-git-branch-name-in-your-prompt/
@@ -129,7 +114,6 @@ function parse_git_branch {
 # Use my own PS1 
 #export PS1='\h \[\033[1;33m\]\w\[\033[0m\]$(parse_git_branch)$ ' 
 
-
 # turn the prompt red if the previous program exited with non-zero.
 if type -p printf > /dev/null 2>&1; then
     red=$(printf '\e[31m')
@@ -139,39 +123,49 @@ else
 fi
 
 openbsdspecific() {
-OPENBSDVER=`sysctl kern.version`
+	# Various openbsd-specific aliases 
+	alias ro="sudo mount -ur"
+	alias rw="sudo mount -uw"
+	alias osupgrade="sh ~/bin/osupgrade.sh"
+	alias ports='test -f /usr/local/share/sqlports && sqlite3 /usr/local/share/sqlports'
+	alias rc='sudo /etc/rc.d/'
+    alias buildmaster="sudo -u _buildbot buildbot restart /var/buildbot"
+    alias buildslave="sudo -u _buildslave buildslave restart /var/buildslave"
 
-OPENBSD_DK="ftp://ftp.eu.openbsd.org/pub/OpenBSD/"
-PKG_STABLE_DIR="`uname -r`/packages/`machine`/"
-PKG_CURRENT_DIR="snapshots/packages/`machine`/"
-OS_STABLE_DIR="`uname -r`/`machine`/"
-OS_CURRENT_DIR="snapshots/`machine`/"
-
-PKG_STABLE=$OPENBSD_DK$PKG_STABLE_DIR
-PKG_CURRENT=$OPENBSD_DK$PKG_CURRENT_DIR
-OS_STABLE=$OPENBSD_DK$OS_STABLE_DIR
-OS_CURRENT=$OPENBSD_DK$OS_CURRENT_DIR
-
-# if kern.version contains -current
-case "$OPENBSDVER" in
-	*) PKG_PATH=$PKG_CURRENT
-			OS_PATH=$OS_CURRENT
-			;;
-esac
-
-export PKG_PATH OS_PATH
-
-# Clean up our environment 
-unset OPENBSD_DK PKG_STABLE_DIR PKG_CURRENT_DIR \
-	OS_STABLE_DIR OS_CURRENT_DIR PKG_STABLE \
-	PKG_CURRENT OS_STABLE OS_CURRENT OPENBSDVER
-
-# Various openbsd-specific aliases 
-alias pkgup="sudo pkg_add -uiF update -F updatedepends"
-alias pkg_add="sudo pkg_add -i"
-alias osupgrade="cd ~/bin; sh osupgrade.sh"
+	# Find a proper JRE
+	if [ -x /usr/local/jre-1.7.0/ ]; then
+		JAVA_HOME=/usr/local/jre-1.7.0/
+		export JAVA_HOME
+	fi
 }
 
+pkg_add() {
+	_packages=$*
+
+	sudo mount -uw /usr/local
+	sudo pkg_add -i $_packages
+	sudo mount -ur /usr/local
+}
+
+pkg_delete() {
+	_packages=$*
+
+	sudo mount -uw /usr/local
+	sudo pkg_delete $_packages
+	echo 'Running pkg_delete -a .. '
+	sudo pkg_delete -a
+	sudo mount -ur /usr/local
+}
+
+pkgup() {
+	_packages=$*
+
+	sudo mount -uw /usr/local
+	sudo pkg_add -u $_packages
+	echo 'Running pkg_delete -a .. '
+	sudo pkg_delete -a
+	sudo mount -ur /usr/local
+}
 
 worldsync() {
 	# Handy alias to run before going offline for a long time.
@@ -180,12 +174,15 @@ worldsync() {
 	cd ~/work/
 	for i in $(find . -maxdepth 1 -type d); do 
 		if [ -x $i/CVS ]; then
+			echo "[$i]"
 			cd $i; cvs up; cd ..
 		fi
 		if [ -x $i/.git ]; then
+			echo "[$i]"
 			cd $i; git pull; cd ..
 		fi
 		if [ -x $i/.svn ]; then
+			echo "[$i]"
 			cd $i; svn up; cd ..
 		fi
 	done
@@ -193,34 +190,18 @@ worldsync() {
 
 
 alias ls="ls -F"
-alias gsxy="/home/holsta/work/siteXYtools/generate"
 alias work="cd ~/work"		# shorthand for work dir
-
-# tvix passwords are not secret and not changable, so tell the github people
-# my tvix password, just to make life easier on myself.
-alias tvix='shlight //tvix/tvixhd1 /mnt/tvix -U tvixhd1 -P tvixhd1'
+alias f=/usr/local/bin/fossil
 
 # make it easier to update mayas website
 alias maya.mongers.org="ssh -t katie.klen.dk 'cd /var/apache/holsta/maya.mongers.org/htdocs/2009; svn up'"
 
 # ssh session to files
-alias files="ssh -t fileserver.inside.mongers.org 'tmux a'"
-# make it easier to run rtorrent inside screen
-stty start undef
-stty stop undef
-
+alias files="ssh -t files.mongers.org 'tmux a'"
 
 # Machine dependant stuff is called here
 case "$HOSTNAME" in
-	tori)
-		openbsdspecific
-		show_ports
-		calendar -A 0
-		;;
-	fileserver)
-		openbsdspecific
-		;;
-	gateway)
+	x40|files|gateway|fit)
 		openbsdspecific
 		;;
 	katie)
