@@ -99,7 +99,7 @@ set directory=~/.vim/swp//
 set undodir=~/.vim/undo//
 set nobackup
 set noswapfile
-set fileencodings=utf-8,utf-16le,latin-1
+set fileencodings=utf-8,latin-1
 set undofile
 set undoreload=10000
 set viminfo=%,'50,\"100,:100,n~/.viminfo ".viminfo file settings
