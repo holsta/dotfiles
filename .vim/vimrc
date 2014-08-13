@@ -102,7 +102,7 @@ set noswapfile
 set fileencodings=utf-8,latin-1
 set undofile
 set undoreload=10000
-set viminfo=%,'50,\"100,:100,n~/.viminfo ".viminfo file settings
+set viminfo=%,'50,\"100,:100,n~/.vim/viminfo ".viminfo file settings
 " }}}
 " Cursor behaviour/movement {{{
 set backspace=indent,eol,start 
