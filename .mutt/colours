@@ -11,29 +11,29 @@
 # custom index highlights ----------------------------------------------
 # messages which mention my name in the body
 #color index         yellow          default         "~b \"phil(_g|\!| gregory| gold)|pgregory\" !~N !~T !~F !~p !~P"
-#color index         J_cream         brightblack     "~b \"phil(_g|\!| gregory| gold)|pgregory\" ~N !~T !~F !~p !~P"
+#color index         J_cream         black     "~b \"phil(_g|\!| gregory| gold)|pgregory\" ~N !~T !~F !~p !~P"
 #color index         yellow          cyan            "~b \"phil(_g|\!| gregory| gold)|pgregory\" ~T !~F !~p !~P"
 #color index         yellow          J_magent        "~b \"phil(_g|\!| gregory| gold)|pgregory\" ~F !~p !~P"
 ## messages which are in reference to my mails
 #color index         J_magent        default         "~x \"(mithrandir|aragorn)\\.aperiodic\\.net|thorin\\.hillmgt\\.com\" !~N !~T !~F !~p !~P"
-#color index         J_magent        brightblack     "~x \"(mithrandir|aragorn)\\.aperiodic\\.net|thorin\\.hillmgt\\.com\" ~N !~T !~F !~p !~P"
+#color index         J_magent        black     "~x \"(mithrandir|aragorn)\\.aperiodic\\.net|thorin\\.hillmgt\\.com\" ~N !~T !~F !~p !~P"
 #color index         J_magent        cyan            "~x \"(mithrandir|aragorn)\\.aperiodic\\.net|thorin\\.hillmgt\\.com\" ~T !~F !~p !~P"
 #color index         J_magent        red             "~x \"(mithrandir|aragorn)\\.aperiodic\\.net|thorin\\.hillmgt\\.com\" ~F !~p !~P"
 
 # for background in 16 color terminal, valid background colors include:
-# base03, bg, black, any of the non brights
+# base03, bg, black, any of the non s
 
 # basic colors ---------------------------------------------------------
-color normal        brightblue      default         
+color normal        blue      default         
 color error         red             default         
 color tilde         white           default         
 color message       cyan            default         
 color markers       red             black           
 color attachment    black           default         
-color search        brightmagenta   default         
+color search        magenta   default         
 #color status        J_black         J_status        
-color status        brightblue      white           
-color indicator     brightwhite     yellow          
+color status        blue      white           
+color indicator     white     yellow          
 color tree          yellow          default                                     # arrow in threads
 
 # basic monocolor screen
@@ -46,30 +46,30 @@ mono  error         bold
 
 #color index         red             default         "~D(!~p|~p)"               # deleted
 #color index         white           default         ~F                         # flagged
-#color index         brightred       default         ~=                         # duplicate messages
-#color index         brightcyan      default         "~A!~N!~T!~p!~Q!~F!~D!~P"  # the rest
+#color index         red       default         ~=                         # duplicate messages
+#color index         cyan      default         "~A!~N!~T!~p!~Q!~F!~D!~P"  # the rest
 #color index         J_base          default         "~A~N!~T!~p!~Q!~F!~D"      # the rest, new
 color index         red             default         "~A"                        # all messages
-color index         brightred       default         "~E"                        # expired messages
+color index         red       default         "~E"                        # expired messages
 color index         blue            default         "~N"                        # new messages
 color index         blue            default         "~O"                        # old messages
-color index         brightmagenta   default         "~Q"                        # messages that have been replied to
-color index         brightcyan      default         "~R"                        # read messages
+color index         magenta   default         "~Q"                        # messages that have been replied to
+color index         cyan      default         "~R"                        # read messages
 color index         blue            default         "~U"                        # unread messages
 color index         blue            default         "~U~$"                      # unread, unreferenced messages
-color index         brightblue      default         "~v"                        # messages part of a collapsed thread
-color index         brightblue      default         "~P"                        # messages from me
+color index         blue      default         "~v"                        # messages part of a collapsed thread
+color index         blue      default         "~P"                        # messages from me
 color index         cyan            default         "~p!~F"                     # messages to me
 color index         cyan            default         "~N~p!~F"                   # new messages to me
 color index         cyan            default         "~U~p!~F"                   # unread messages to me
-color index         brightcyan      default         "~R~p!~F"                   # messages to me
+color index         cyan      default         "~R~p!~F"                   # messages to me
 color index         red             default         "~F"                        # flagged messages
 color index         red             default         "~F~p"                      # flagged messages to me
 color index         red             default         "~N~F"                      # new flagged messages
 color index         red             default         "~N~F~p"                    # new flagged messages to me
 color index         red             default         "~U~F~p"                    # new flagged messages to me
 color index         white           red             "~D"                        # deleted messages
-color index         brightgreen     default         "~v~(!~N)"                  # collapsed thread with no unread
+color index         green     default         "~v~(!~N)"                  # collapsed thread with no unread
 color index         yellow          default         "~v~(~N)"                   # collapsed thread with some unread
 color index         green           default         "~N~v~(~N)"                 # collapsed thread with unread parent
 # statusbg used to indicated flagged when foreground color shows other status
@@ -83,13 +83,13 @@ color index         yellow          red             "~v~(~D)"                   
 #color index         yellow          default         "~(~N)"                    # messages in threads with some unread
 #color index         green           default         "~S"                       # superseded messages
 #color index         red             default         "~T"                       # tagged messages
-#color index         brightred       red             "~="                       # duplicated messages
+#color index         red       red             "~="                       # duplicated messages
 
 # message headers ------------------------------------------------------
 
-#color header        brightcyan      default         "^"
-color hdrdefault    brightcyan      default         
-color header        brightblue      default         "^(From)"
+#color header        cyan      default         "^"
+color hdrdefault    cyan      default         
+color header        blue      default         "^(From)"
 color header        blue            default         "^(Subject)"
 
 # body -----------------------------------------------------------------
@@ -98,28 +98,28 @@ color quoted        blue            default
 color quoted1       cyan            default         
 color quoted2       yellow          default         
 color quoted3       red             default         
-color quoted4       brightred       default         
+color quoted4       red       default         
 
-color signature     brightcyan      default         
+color signature     cyan      default         
 color bold          white           default         
 color underline     white           default         
 color normal        default         default         
 #
-color body          brightgreen     default         "[;:][-o][)/(|]"    # emoticons
-color body          brightgreen     default         "[;:][)(|]"         # emoticons
-color body          brightgreen     default         "[*]?((N)?ACK|CU|LOL|SCNR|BRB|BTW|CWYL|\
+color body          green     default         "[;:][-o][)/(|]"    # emoticons
+color body          green     default         "[;:][)(|]"         # emoticons
+color body          green     default         "[*]?((N)?ACK|CU|LOL|SCNR|BRB|BTW|CWYL|\
                                                      |FWIW|vbg|GD&R|HTH|HTHBE|IMHO|IMNSHO|\
                                                      |IRL|RTFM|ROTFL|ROFL|YMMV)[*]?"
-color body          brightgreen     default         "[ ][*][^*]*[*][ ]?" # more emoticon?
-color body          brightgreen     default         "[ ]?[*][^*]*[*][ ]" # more emoticon?
+color body          green     default         "[ ][*][^*]*[*][ ]?" # more emoticon?
+color body          green     default         "[ ]?[*][^*]*[*][ ]" # more emoticon?
 
 ## pgp
 
 color body          red             default         "(BAD signature)"
 color body          cyan            default         "(Good signature)"
-color body          brightwhite     default         "^gpg: Good signature .*"
-color body          brightblue      default         "^gpg: "
-color body          brightblue      red             "^gpg: BAD signature from.*"
+color body          white     default         "^gpg: Good signature .*"
+color body          blue      default         "^gpg: "
+color body          blue      red             "^gpg: BAD signature from.*"
 mono  body          bold                            "^gpg: Good signature"
 mono  body          bold                            "^gpg: BAD signature from.*"
 
@@ -129,8 +129,8 @@ color body          red             default         "([a-z][a-z0-9+-]*://(((([a-
 #color body          J_magent        default         "((@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]),)*@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]):)?[0-9a-z_.+%$-]+@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\])"
 
 # Various smilies and the like
-#color body          brightblack     default         "<[Gg]>"                            # <g>
-#color body          brightblack     default         "<[Bb][Gg]>"                        # <bg>
+#color body          black     default         "<[Gg]>"                            # <g>
+#color body          black     default         "<[Bb][Gg]>"                        # <bg>
 #color body          yellow          default         " [;:]-*[})>{(<|]"                  # :-) etc...
 # *bold*
 #color body          blue            default         "(^|[[:space:][:punct:]])\\*[^*]+\\*([[:space:][:punct:]]|$)"
