@@ -3,7 +3,7 @@ config {
 
 	    collection {
 		name openbsd release rcs
-		prefix /var/cvsync
+		prefix /var/cvsync-openbsd
 		umask 002
 	    }
 	}
