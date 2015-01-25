@@ -21,6 +21,8 @@ if has('gui_running')
     set colorcolumn=80
     set guioptions-=T
 	set encoding=utf-8
+	set list
+	"set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 else
 " UNIX-specifikke indstillinger
     set path=.,*/*,../
@@ -29,6 +31,7 @@ endif
 " }}}
 " Appearence {{{
 set background=light
+colorscheme solarized
 
 " highlights status line in active split"     
 	hi   StatusLine     ctermbg=gray      ctermfg=black       cterm=NONE
@@ -125,11 +128,8 @@ set smartcase "Smarter than ignore case
 " Window behaviour {{{
 set winheight=12
 set splitbelow
-set title " Xterm titles
 " }}}
 " Text annotation options {{{
-set list
-"set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 set synmaxcol=250 " Do not syntax highlight long lines
 " }}}
 " Folding {{{
@@ -160,8 +160,6 @@ augroup ft_css
 
     au BufNewFile,BufRead *.less setlocal filetype=less
 
-" mail and news, textwidth 72, don't autoindent
-    au BufNewFile,BufReadPost mutt*,.article*,.followup,*.txt set tw=72 sm noai
     au Filetype less,css setlocal foldmethod=marker
     au Filetype less,css setlocal foldmarker={,}
     au Filetype less,css setlocal omnifunc=csscomplete#CompleteCSS
@@ -265,6 +263,8 @@ augroup END
 augroup ft_mail
     au!
 
+    " mail and news, textwidth 72, don't autoindent
+    au BufNewFile,BufReadPost mutt*,.article*,.followup,*.txt set tw=72 sm noai
     au Filetype mail setlocal spell
 augroup END
 
@@ -299,13 +299,12 @@ augroup ft_mercurial
 augroup END
 
 " }}}
-" Mutt {{{
+" Mutt config {{{
 
 augroup ft_muttrc
     au!
 
     au BufRead,BufNewFile *.muttrc set ft=muttrc
-
     au FileType muttrc setlocal foldmethod=marker foldmarker={{{,}}}
 augroup END
 
