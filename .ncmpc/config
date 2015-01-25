@@ -24,7 +24,7 @@ set-xterm-title = yes
 ##
 
 ## enable/disable colors
-enable-colors = no 
+enable-colors = yes
 
 ## background colors: black,red,green,yellow,blue,magenta,cyan,white, none 
 color background = none 
