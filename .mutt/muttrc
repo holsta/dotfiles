@@ -30,9 +30,9 @@ set beep=no             # beep, and I'll break your neck.
 set beep_new=yes         # beep turns out to be okay, sometimes.
 
 set certificate_file=~/.mutt/certificates
-#set charset=utf-8
-set charset=latin1
-#set send_charset=utf-8
+set charset=utf-8
+#set charset=latin1
+set send_charset=utf-8
 set confirmcreate=no
 #set check_new=yes
 

@@ -7,14 +7,14 @@
 # * The linux web host
 
 # Needed for svn/iconv
-LC_CTYPE=da_DK.ISO8859-1
-#LC_CTYPE=da_DK.UTF-8
+#LC_CTYPE=da_DK.ISO8859-1
+LC_CTYPE=da_DK.UTF-8
 
 export LC_CTYPE
 
 PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:$HOME/bin:/usr/local/git/bin/"
 HOSTNAME="`hostname -s`"
-LESSCHARSET=latin1
+LESSCHARSET=utf-8
 TZ=CET
 export PATH HOSTNAME LESSCHARSET TZ 
 
@@ -131,6 +131,7 @@ openbsdspecific() {
 	alias rc='sudo /etc/rc.d/'
     alias buildmaster="sudo -u _buildbot buildbot restart /var/buildbot"
     alias buildslave="sudo -u _buildslave buildslave restart /var/buildslave"
+	alias ncmpc='MPD_HOST=192.168.0.198 /usr/local/bin/ncmpc'
 
 	# Find a proper JRE
 	if [ -x /usr/local/jre-1.7.0/ ]; then
