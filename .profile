@@ -90,16 +90,6 @@ xsock() {
         fi
 }
 
-# Offer a decent way of generating passwords across all systems.
-# -n 1 (one password)
-# -m 40 (string length 20)
-# -M SNCL (must contain special chars, numbers, upper case, lower case)
-if [ -x /usr/local/bin/apg ]; then
-	alias newpassword='apg -n 1 -m 40 -M SNCL'
-else
-	alias newpassword='openssl rand -base64 40'
-fi
-
 # http://henrik.nyh.se/2008/12/git-dirty-prompt
 # http://www.simplisticcomplexity.com/2008/03/13/show-your-git-branch-name-in-your-prompt/
 #   username@Machine ~/dev/dir[master]$   # clean working directory
