@@ -99,7 +99,7 @@ function parse_git_dirty {
 }
 
 function parse_git_branch {
-  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/ [\1$(parse_git_dirty)]/"
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
 }
 # Use my own PS1 
 #export PS1='\h \[\033[1;33m\]\w\[\033[0m\]$(parse_git_branch)$ ' 
@@ -107,9 +107,9 @@ function parse_git_branch {
 # turn the prompt red if the previous program exited with non-zero.
 if type -p printf > /dev/null 2>&1; then
     red=$(printf '\e[31m')
-    export PS1='$([ $? -eq 0 ]||printf $red)\h \w$(parse_git_branch)\$\[\e[0m\] '
+    export PS1='$([ $? -eq 0 ]||printf $red)\h \w $(parse_git_branch)\$\[\e[0m\] '
 else
-    export PS1='\[\e[0m\]\h\ \w$(parse_git_branch)$\[\e[0m\] '
+    export PS1='\[\e[0m\]\h\ \w $(parse_git_branch)$\[\e[0m\] '
 fi
 
 openbsdspecific() {
