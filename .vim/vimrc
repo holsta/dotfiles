@@ -20,10 +20,13 @@ if has('gui_running')
     set path=.,*/*,../,%USERPROFILE%\Desktop,%TMP%
     set colorcolumn=80
     set guioptions-=T
-	set encoding=utf-8
+    set encoding=utf-8
+    set list
+    set listchars=tab:>\	,eol:¬,extends:>>,precedes:<
 else
 " UNIX-specifikke indstillinger
     set path=.,*/*,../
+"    set encoding=latin-1
 endif
 
 " }}}
@@ -128,8 +131,6 @@ set splitbelow
 set title " Xterm titles
 " }}}
 " Text annotation options {{{
-set list
-"set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 set synmaxcol=250 " Do not syntax highlight long lines
 " }}}
 " Folding {{{
@@ -270,7 +271,7 @@ augroup END
 
 " }}}
 " Makefiles {{{
-au BufNewFile,BufRead Makefile,*.mk set encoding=latin-1 ts=8 noexpandtab
+au BufNewFile,BufRead Makefile,*.mk set fileencoding=latin-1 ts=8 noexpandtab
 " }}} 
 " Markdown {{{
 
