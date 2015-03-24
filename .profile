@@ -7,12 +7,12 @@
 # * The linux web host
 
 # Needed for svn/iconv
-LC_CTYPE=da_DK.ISO8859-1
-#LC_CTYPE=da_DK.UTF-8
+#LC_CTYPE=da_DK.ISO8859-1
+LC_CTYPE=da_DK.UTF-8
 
 export LC_CTYPE
 
-PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:$HOME/bin:/usr/local/git/bin/"
+PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:$HOME/bin:/usr/local/git/bin"
 HOSTNAME="`hostname -s`"
 LESSCHARSET=latin1
 TZ=CET
