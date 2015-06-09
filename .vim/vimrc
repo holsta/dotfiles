@@ -22,10 +22,13 @@ if has('gui_running')
     set guioptions-=T
 	set encoding=utf-8
 	set list
-	"set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
+    set encoding=utf-8
+    set list
+    set listchars=tab:>\	,eol:¬,extends:>>,precedes:<
 else
 " UNIX-specifikke indstillinger
     set path=.,*/*,../
+"    set encoding=latin-1
 endif
 
 " }}}
@@ -270,7 +273,7 @@ augroup END
 
 " }}}
 " Makefiles {{{
-au BufNewFile,BufRead Makefile,*.mk set encoding=latin-1 ts=8 noexpandtab
+au BufNewFile,BufRead Makefile,*.mk set fileencoding=latin-1 ts=8 noexpandtab
 " }}} 
 " Markdown {{{
 

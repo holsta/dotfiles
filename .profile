@@ -12,7 +12,7 @@ LC_CTYPE=da_DK.UTF-8
 
 export LC_CTYPE
 
-PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:$HOME/bin:/usr/local/git/bin/"
+PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:$HOME/bin:/usr/local/git/bin"
 HOSTNAME="`hostname -s`"
 LESSCHARSET=utf-8
 TZ=CET
@@ -184,9 +184,6 @@ alias ls="ls -F"
 alias work="cd ~/work"		# shorthand for work dir
 alias f=/usr/local/bin/fossil
 
-# make it easier to update mayas website
-alias maya.mongers.org="ssh -t katie.klen.dk 'cd /var/apache/holsta/maya.mongers.org/htdocs/2009; svn up'"
-
 # ssh session to files
 alias files="ssh -t files.mongers.org 'tmux a'"
 
@@ -195,8 +192,4 @@ case "$HOSTNAME" in
 	x40|files|gateway|fit)
 		openbsdspecific
 		;;
-	katie)
-		TERM=vt100
-		export TERM
-		;;		
 esac
