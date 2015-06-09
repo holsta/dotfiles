@@ -1,0 +1,46 @@
+#!/bin/sh
+#
+# Bootstraps tmux to 80%; saves a bit of typing and thinking right after
+# reboots when I just want to get back to work.
+
+WORKDIR=~/work
+
+if [ ! -x $(whence tmux) ]; then
+	echo ERROR: Lacking tmux, like a savage.
+	exit 1
+fi
+
+# I always want basic stuff like IRC, email, tasks, calendar and logs
+tmux new-session -d 'ksh -c irssi' -s $USER
+tmux new-session -d 'ksh -c mutt' -s $USER
+tmux new-session -d 'ksh -c task' -s $USER
+tmux new-session -d 'ksh -c google calendar today' -s $USER
+tmux new-session -d -c /var/log -s $USER
+
+# Build tmux sessions and windows based on the projects in my project
+# directory. These almost always reflect what I am working on anyway.
+if [ -d $WORKDIR ]; then
+	for project in $WORKDIR/*; do 
+		session_name=$(echo $(basename $project) | sed 's/\./_/g')
+		tmux new-session -d -s $session_name -c $project
+		if [ -f $project/.tmux.conf.local ]; then
+			# Populate the session with windows, etc per project
+			tmux source-file $project/.tmux.conf.local
+		fi
+	done
+fi
+
+# Are there signs of a usable OpenBSD src checkout?
+if [ -w /usr/src/Makefile ]; then
+	tmux new-session -d -s openbsd_src -c /usr/src
+fi
+
+# Are there signs of a usable OpenBSD ports checkout?
+if [ -w /usr/ports/Makefile ]; then
+	tmux new-session -d -s openbsd_ports -c /usr/ports
+fi
+
+# Do we have mystuff ports? 
+if [ -w /usr/ports/mystuff ]; then
+	tmux new-session -d -s openbsd_mystuff -c /usr/ports/mystuff
+fi
