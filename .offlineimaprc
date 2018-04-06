@@ -22,7 +22,7 @@ restoreatime = no
 [Repository Gmail]
 type = Gmail 
 ssl = yes
-sslcacertfile = /etc/ssl/cacert.pem 
+sslcacertfile = /etc/ssl/cert.pem
 remotehost = imap.gmail.com
 remoteuser = a@mongers.org
 remotepassfile = ~/.private/imap
