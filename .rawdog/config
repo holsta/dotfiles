@@ -4,8 +4,27 @@ itemtemplate templates/item
 feedlisttemplate templates/feedlist
 feeditemtemplate templates/feeditem 
 
+dayformat %Y-%m-%d
+timesections false
+timeformat %H:%M
+datetimeformat %Y-%m-%d %H:%M
+numthreads 20
+showtracebacks false
+blocklevelhtml true
+tidyhtml true
+useids true
+hideduplicates id
+changeconfig true
+
 outputfile /var/www/sites/wrk.mongers.org/htdocs/index.html
 
 feed 3h https://daringfireball.net/feeds/main
 feed 3h https://www.holstsikkerhed.dk/feed.xml
 feed 3h https://status.github.com/messages.rss
+feed 3h https://www.reddit.com/r/space.rss
+feed 3h https://www.reddit.com/r/askscience.rss
+feed 3h https://www.reddit.com/r/selfdrivingcars.rss
+feed 3h https://www.reddit.com/r/psychology.rss
+feed 3h https://undeadly.org/cgi?action=rss&full=1
+feed 3h https://undeadly.org/cgi?action=rss
+feed 3h https://www.reddit.com/r/science.rss

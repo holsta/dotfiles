@@ -8,12 +8,12 @@
     <title>wrk.mongers.org</title>
 </head>
 <body id="rawdog">
-<div id="items">
-__items__
-</div>
 <h2 id="feedstatsheader">Feeds</h2>
 <div id="feedstats">
 __feeds__
+</div>
+<div id="items">
+__items__
 </div>
 </body>
 </html>
