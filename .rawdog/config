@@ -1,0 +1,11 @@
+
+pagetemplate templates/page 
+itemtemplate templates/item 
+feedlisttemplate templates/feedlist
+feeditemtemplate templates/feeditem 
+
+outputfile /var/www/sites/wrk.mongers.org/htdocs/index.html
+
+feed 3h https://daringfireball.net/feeds/main
+feed 3h https://www.holstsikkerhed.dk/feed.xml
+feed 3h https://status.github.com/messages.rss
