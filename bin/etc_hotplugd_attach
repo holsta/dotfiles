@@ -11,7 +11,7 @@ case $DEVCLASS in
         case $DEVNAME in
         uaudio*)
                 if [ -x /etc/rc.d/mpd ]; then
-                        /etc/rc.d/mpd restart
+                        rcctl restart mpd
                         logger -t hotplugd mpd restarted
                 fi
         ugen*)
@@ -29,7 +29,7 @@ case $DEVCLASS in
    chmod 755 ${mnt}
    for dev in /dev/${DEVNAME}[a-p]; do
       if mount ${DEVNAME} ${mnt}; then
-         DISPLAY=:0.0 sudo -i -u ${USER} "cd ${mnt} && xterm"
+         DISPLAY=:0.0 su -l ${USER} -c "cd ${mnt} && xterm"
          umount ${mnt}
          rmdir ${mnt}
          break
