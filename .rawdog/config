@@ -19,12 +19,13 @@ changeconfig true
 outputfile /var/www/sites/wrk.mongers.org/htdocs/index.html
 
 feed 3h https://daringfireball.net/feeds/main
-feed 3h https://www.holstsikkerhed.dk/feed.xml
-feed 3h https://status.github.com/messages.rss
+feed 3h https://holstsikkerhed.dk/feed.xml
 feed 3h https://www.reddit.com/r/space.rss
 feed 3h https://www.reddit.com/r/askscience.rss
 feed 3h https://www.reddit.com/r/selfdrivingcars.rss
 feed 3h https://www.reddit.com/r/psychology.rss
 feed 3h https://undeadly.org/cgi?action=rss&full=1
-feed 3h https://undeadly.org/cgi?action=rss
 feed 3h https://www.reddit.com/r/science.rss
+feed 3h https://electrek.co/feed/
+feed 3h https://www.reddit.com/r/openbsd.rss
+feed 3h https://www.datatilsynet.dk/handlers/DynamicRss.ashx?id=212253bc-985f-446e-a58d-f5bc52d308c0
