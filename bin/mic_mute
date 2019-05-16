@@ -1,0 +1,2 @@
+mixerctl -t record.volume.mute
+tmux refresh-client -S

@@ -1,0 +1,2 @@
+mixerctl -t outputs.master.mute
+tmux refresh-client -S

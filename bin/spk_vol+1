@@ -1,0 +1,2 @@
+mixerctl outputs.master=+1
+tmux refresh-client -S

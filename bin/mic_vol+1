@@ -1,0 +1,2 @@
+mixerctl record.volume=+1
+tmux refresh-client -S
