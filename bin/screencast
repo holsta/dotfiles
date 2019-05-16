@@ -1,0 +1,83 @@
+#!/bin/sh
+#
+# https://www.romanzolotarev.com/bin/screenshot
+# Copyright 2018 Roman Zolotarev <hi@romanzolotarev.com>
+#
+# pkg_add slop ffmpeg mpv
+# rcctl set sndiod flags -s default -m play,mon -s mon
+# rcctl restart sndiod
+#
+
+set -e
+log='/tmp/screencast.log'
+trap 'clean_up' EXIT
+trap exit HUP INT TERM
+
+clean_up() {
+	logger 'screencast: clean up'
+
+	[ -f "$log" ] && {
+		logger \
+		"ffmpeg: $(tr '' ' '<"$log"|sed -E 's/ {1,}/ /g')"
+		rm "$log"
+	}
+	[ -f "$output" ] && {
+		stat -f '%z bytes' "$output"
+		mpv --loop=inf --really-quiet "$output"
+	}
+}
+
+case $1 in
+
+start)
+	area=$(slop -o -f '%x,%y+%wx%h')
+
+	origin=$(echo "$area"|cut -d'+' -f1)
+	input=":0.0+$origin"
+
+	# width and height should be divisible by two
+	odd_size=$(echo "$area"|cut -d'+' -f2)
+	w=$(( $(echo "$odd_size"|cut -d'x' -f1) / 2 * 2))
+	h=$(( $(echo "$odd_size"|cut -d'x' -f2) / 2 * 2))
+	size="${w}x${h}"
+
+	date="$(date +%Y%m%d-%H%M%S)"
+	dir="$HOME/downloads/screencasts/${date%-*}"
+	mkdir -p "$dir"
+	output="$dir/${date}-$size.mp4"
+
+	logger "screencast: capture $size from $input to $output"
+
+	ffmpeg \
+	-f x11grab -r 30 -s "$size" -i "$input" \
+	-hide_banner \
+	-movflags +faststart \
+	-pix_fmt yuv420p \
+	-preset veryslow \
+	-tune animation \
+	-vcodec h264 \
+	"$output" 2> "$log"
+	# -acodec mp3 -ab 192 -ar 44100 -t 20\
+	# -f sndio -i snd/0.mon \
+
+	;;
+
+stop)
+	if ! pgrep -q ffmpeg; then 
+		logger 'screencast: nothing to stop'
+		exit 1
+	fi
+	if pkill ffmpeg; then
+		logger 'screencast: stopped'
+	else
+		logger 'screencast: failed to stop'
+	fi
+	;;
+
+*)
+	echo 'usage: screenshot start'
+	echo '                | stop'
+	exit 1
+	;;
+
+esac
