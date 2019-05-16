@@ -1,25 +1,83 @@
-# turn on stick-group mode
-sticky yes
+gap 14 0 0 0
 
-# make room for xclock and friends along the top
-#gap 14 0 0 0
-
-# don't border these apps
-ignore xclock
 ignore xconsole
+ignore Xclock
+ignore statusbar
 
-# Autogroup definitions
-autogroup 0 "xclock,XClock"
-autogroup 1 "xterm,XTerm"
-autogroup 2 "Navigator,Firefox"
-autogroup 3 "Thunderbird-bin,thunderbird-bin"
-autogroup 3 "gimp,Gimp"
-autogroup 3 "Blender,Blender"
-autogroup 4 "inkscape,Inkscape"
-autogroup 5 "easytag,Easytag"
-autogroup 5 "audacity,Audacity"
-autogroup 6 "gtkpod,Gtkpod"
-autogroup 6 "gitk,Gitk"
-autogroup 7 "xspread,XSpread"
-autogroup 8 "pidgin,Pidgin"
-autogroup 9 "xconsole,XConsole"
+# xprop | grep WM_CLASS
+autogroup 0 "xconsole,XConsole"
+autogroup 1 "Large,XTerm"
+autogroup 2 "xterm,XTerm"
+autogroup 3 "chromium-browser,Chromium-browser"
+
+command Audacity /usr/local/bin/audacity
+command Audacious /usr/local/bin/audacious
+command Blender /usr/local/bin/blender
+command Calibre /usr/local/bin/calibre
+command Celestia /usr/local/bin/celestia
+command Chromium /usr/local/bin/chrome
+command Darktable /usr/local/bin/darktable
+command Dia /usr/local/bin/dia
+command Fyre /usr/local/bin/fyre
+command Gimp /usr/local/bin/gimp
+command Inkscape /usr/local/bin/inkscape
+command KiCAD /usr/local/bin/kicad
+command Krita /usr/local/bin/krita
+command Octave /usr/local/bin/octave
+command R /usr/local/bin/R
+command "Synfig Studio" /usr/local/bin/synfigstudio
+command Xournal /usr/local/bin/xournal
+
+# Super-key talks to cwm
+bind-key 4-l lock
+bind-key 4-r restart
+bind-key 4-a menu-cmd
+
+bind-key 4-Return "/usr/X11R6/bin/xterm -name Large -T Large -fullscreen -fa spleen -fs 64"
+
+# Window behaviour & movement
+bind-key 4-Up window-snap-up
+bind-key 4-Down window-snap-down
+bind-key 4-Left window-snap-left
+bind-key 4-Right window-snap-right
+bind-key 4-f window-fullscreen
+bind-key 4-m window-vmaximize
+# window-? shows help image
+#bind-key 4-? "feh -F /usr/local/share/icons/Adwaita/24x24/status/user-idle.png"
+
+bind-key 4-v window-vtile
+
+# Virtual desktop support
+bind-key S4-Left group-rcycle
+bind-key S4-Right group-cycle
+
+# Groups
+#bind-key 4-1 group-only 1
+#bind-key 4-2 group-only 2
+
+# Music
+bind-key 4-F5 "mpc prev"
+bind-key 4-F6 "mpc toggle"
+bind-key 4-F7 "mpc stop"
+bind-key 4-F8 "mpc next"
+
+# Volume
+bind-key F9 "/bin/sh bin/spk_mute"
+bind-key F10 "/bin/sh bin/spk_vol-10"
+bind-key F11 "/bin/sh bin/spk_vol+10"
+bind-key S-F10 "/bin/sh bin/spk_vol-1"
+bind-key S-F11 "/bin/sh bin/spk_vol+1"
+
+# Microphone
+bind-key 4-F9 "/bin/sh bin/mic_mute"
+bind-key 4-F10 "/bin/sh bin/mic_vol-10"
+bind-key 4-F11 "/bin/sh bin/mic_vol+10"
+bind-key 4S-F10 "/bin/sh bin/mic_vol-1"
+bind-key 4S-F11 "/bin/sh bin/mic_vol+1"
+
+# Screenshot; saved in ~
+bind-key 4-F12 "scrot"
+
+# Make pretty
+fontname "spleen:pixelsize=64" # Mmm, 4K
+borderwidth 1
