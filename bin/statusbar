@@ -1,0 +1,17 @@
+#!/bin/sh
+
+MAILBOXES="INBOX source-changes openbsd-tech"
+
+count() {
+    i=0;
+    for f in "$1"/*; do
+        [ -e "$f" ] && : $(( i++ ));
+    done;
+    printf '%d ' "$i";
+}
+
+for m in $MAILBOXES; do
+    if [ -d ~/.Maildir/$m/new ]; then
+        count ~/.Maildir/$m/new
+    fi
+done
